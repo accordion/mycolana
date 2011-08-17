@@ -1,0 +1,24 @@
+{{>header}}
+
+ <!--        {{&form}} -->
+
+        <p>Here are all my {{things}}:</p>
+        {{>pagination}}
+        <ul>
+            {{#objects}}
+            <li>
+            	<strong>{{id}}:</strong> ({{obinv}} : {{obobject}}) <br />
+                        
+           	{{#measure}}
+                        Value: {{value}}<br />
+<!-- 
+	            	Measurement: {{id}}
+	            	dim: {{medim}}
+	            	value: {{mevalue}} <br />
+-->
+            	{{/measure}}
+
+            </li>
+            {{/objects}}
+        </ul>
+{{>footer}}

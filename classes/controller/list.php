@@ -1,48 +1,20 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-// ------------------------------------------------------------------------
 
 /**
- * myColex detail Controller extends Performer
+ * List controller
  *
- * @package		myColex
- * @subpackage	Controller
- * @category	Controller
- * @author		Stefan Buerer
- * @link		http://www.collector.ch
+ * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-
-// ------------------------------------------------------------------------
-
-class Controller_Detail extends Controller_Form {
-
-	public function __construct(Request $request, Response $response)
+class Controller_List extends Controller { 
+    
+    public function action_index()
     {
-        parent::__construct($request,  $response);
-    }   
-
-     public function before()
-      {
-         parent::before();
-  		 
-  	  }
-	
- 
-   	 /*
-	 Default controller behaviour, show empty form
-	 */
-	public function action_index()
-	{
-		
-	}
-	
-	
-	
-	
-	/* The after() method is called after your controller action. parent::after bottom */
-    public function after()
-      {
-		parent::after();
-      }
-
+        echo 'Hallo :)';
+    }
+    
+    public function action_object()
+    {
+        echo new View_List_Object();
+    }
+    
 }
-?>
