@@ -5,16 +5,16 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class Controller_List extends Controller { 
+class Controller_List extends Controller_Base { 
     
     public function action_index()
     {
-        echo 'Hallo :)';
+        $this->layout->content = "Hallo";
     }
     
     public function action_object()
     {
-        echo new View_List_Object();
+        $this->layout->content = new View_List_Object;
     }
     
 }

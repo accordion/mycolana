@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-abstract class View_Pagination_Basic extends View_Frame {
+abstract class View_Pagination_Basic extends Kostache {
 
     protected $pagination;
     
