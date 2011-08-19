@@ -1,7 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Abstract class for paginated kostache views
+ * Abstract class for paginated kostache views.
+ * Uses https://github.com/sfroeth/pagination
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */

@@ -7,45 +7,65 @@
  */
 abstract class Model_Base extends ORM {
     
-//    public abstract function _load_config();
-    
-    public function rules__()
-    {
-        $rules = array();
-//        $config = $this->_load_config();
-        $config = Kohana::$config->load('object');
-        foreach($config as $field => $values)
-        {
-            $validators = $values['validation'];
-            $fieldrules = $rules[$field] = array();
-            foreach($validators as $rule => $value)
-            {
-                $fieldrules[] = $this->_add_rule($rule, $value);
-            }           
-        }
-        return $rules;
-        
-    }
-    
-    private function _add_rule($rule, $value)
-    {
-        switch($rule)
-        {
-            case 'not_empty':
-                if($value) return array('not_empty');
-                break;
-            case 'max_length':
-                return array('max_length', array(':value', $value));
-            case 'min_length':
-                return array('min_length', array(':value', $value));
-
-        }
-    }
-    
-    public static function get_config($model_name)
+    public function get_tablecolumns_info()
     {
         $db = Database::instance();
-        return $db->list_columns($model_name);
+        return $db->list_columns($this->_table_name);
     }
+    
+    public function get_form_config()
+    {
+        $columns = $this->get_tablecolumns_info();
+        $config = array();
+        foreach($columns as $column => $definitions)
+        {
+            $column_cfg = array();
+            foreach($definitions as $definition => $value)
+            {
+                switch($definition)
+                {
+                    case 'column_name':
+                    case 'is_nullable':
+                        $column_cfg[$definition] = $value;
+                        break;
+                    case 'display':
+                    case 'character_maximum_length':
+                        $column_cfg['maxlength'] = $value;
+                        break;
+                    
+                    // Form input type
+                    case 'data_type':
+                        if($value == 'date') 
+                        {
+                            $column_cfg['type'] = 'datepicker';
+                        }
+                        elseif($value == 'tinyint') {
+                            $column_cfg['type'] = 'checkbox';
+                        }
+                        elseif($value == 'int' AND 
+                                strstr($columns[$column]['column_name'], '_id')) 
+                        {
+                            $column_cfg['type'] = 'hidden';
+                        }
+                        break;
+                    case 'type':
+                        if($value == 'string' AND 
+                                !($columns[$column]['data_type'] == 'date') AND
+                                (int)$columns[$column]['character_maximum_length'] > 100)
+                        {
+                            $column_cfg['type'] = 'textarea';
+                        }
+                        elseif($value == 'int' OR $value == 'string')
+                        {
+                            $column_cfg['type'] = 'text';
+                        }
+                        break;
+                }
+                $config[$column] = $column_cfg;
+            }
+        }
+        return $config;
+    }
+    
 }
 
