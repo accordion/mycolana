@@ -31,9 +31,6 @@ class Controller_Detail extends Controller_Base {
     {
         $id = $this->request->param('id');
         $object = Model_Base::factory('object', $id);
-
-                echo Kohana_Debug::vars($object->get_config());
-
         
         if(!$object->loaded() AND $id != null) 
         {
@@ -42,7 +39,7 @@ class Controller_Detail extends Controller_Base {
         else
         {
             $this->layout->content = new View_Form($object->get_config(), 
-                ($id != null ? ''.$id : ''), $object);
+                $this->request->uri(), $object);
         }
     }
     
@@ -78,8 +75,8 @@ class Controller_Detail extends Controller_Base {
 //                $this->request->action(), $measurement);
             
             // bare layout
-            $this->layout = new View_Form($measurement->get_form_config(), 
-                $this->request->action(), $measurement);
+            $this->layout = new View_Form($measurement->get_config(), 
+                $this->request->uri(), $measurement);
         }
         
         

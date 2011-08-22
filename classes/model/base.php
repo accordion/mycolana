@@ -73,20 +73,23 @@ abstract class Model_Base extends ORM {
         $rules = array();
         foreach($config as $field => $definitions)
         {
-            $rule = array();
-            foreach($definitions as $key => $value)
+            if($field != 'id')
             {
-                switch($key)
+                $rule = array();
+                foreach($definitions as $key => $value)
                 {
-                    case 'is_nullable':
-                        if(!$value) $rule[] = array('not_empty');
-                        break;
-                    case 'maxlength':
-                        $rule[] = array('max_length', array(':value', $value));
-                        break;
+                    switch($key)
+                    {
+                        case 'is_nullable':
+                            if(!$value) $rule[] = array('not_empty');
+                            break;
+                        case 'maxlength':
+                            $rule[] = array('max_length', array(':value', $value));
+                            break;
+                    }
                 }
+                $rules[$field] = $rule;
             }
-            $rules[$field] = $rule;
         }
         return $rules;              
     }

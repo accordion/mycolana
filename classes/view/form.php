@@ -27,61 +27,40 @@ class View_Form extends Kostache {
     }
     
     private function _render_form()
-    {
-        $form = '';
-        $form .= '<form action="' . $this->action . '" method="' . $this->method . '">';
+    {      
+        $form = Form::open($this->action, array('method' => $this->method));
         
         foreach($this->config as $column => $definitions)
         {
             $form .= $this->_create_input($column, $definitions);
         }
-        
-        $form .= '<input type="submit" value="Absenden" />';
-        $form .= '<input type="reset" value="Formular löschen" />';
-        $form .= '</form>';
+       
+        $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));
+        $form .= Form::button('reset', 'Leeren', array('type' => 'reset'));
+        $form .= Form::close();
         
         return $form;
     }
     
     private function _create_input($column, $definitions)
     {
-        $input = '';
-        switch($definitions['type'])
-        {
-            case 'hidden':
-                $input .= '<input type="hidden" ';
-                break;
-            case 'textarea':
-                $input .= $column . ': ';
-                $input .= '<textarea ';
-                break;
-            default:
-                $input .= $column . ': ';
-                $input .= '<input type="text" ';
-                break;
-        }  
-        
-        $input .= 'name="' . $column . '" ';
-        if($definitions['type'] != 'textarea')
-        {
-            $input .= 'value="' . $this->model->$column . '" ';
-        }
-        if(isset($definitions['maxlength'])) $input .= 'maxlength="' . $definitions['maxlength'] . '" ';
-    
+        $attributes = array();
         switch($definitions['type'])
         {
             case 'textarea':
-                $input .= '>'. $this->model->$column .'</textarea><br />';
-                break;
+                return $column . ': ' . Form::textarea($column, 
+                        $this->model->$column) . "<br />\n";        
             case 'hidden':
-                $input .= '/>';
-                break;
+                $attributes['type'] = 'hidden';
+                if(isset($definitions['maxlength'])) 
+                    $attributes['maxlength'] = $definitions['maxlength'];
+                return Form::input($column, $this->model->$column, $attributes) . "\n";         
             default:
-                $input .= '/><br />';
-                break;
-        }
-        
-        return $input . "\n";
+                if(isset($definitions['maxlength'])) 
+                    $attributes['maxlength'] = $definitions['maxlength'];
+                return $column . ': ' . Form::input($column, $this->model->$column, 
+                        $attributes) . "<br />\n";
+        }   
     }
     
 }
