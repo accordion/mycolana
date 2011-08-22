@@ -13,7 +13,7 @@ abstract class Model_Base extends ORM {
         return $db->list_columns($this->_table_name);
     }
     
-    public function get_form_config()
+    public function get_config()
     {
         $columns = $this->get_tablecolumns_info();
         $config = array();
@@ -65,6 +65,30 @@ abstract class Model_Base extends ORM {
             }
         }
         return $config;
+    }
+    
+    public function rules()
+    {
+        $config = $this->get_config();
+        $rules = array();
+        foreach($config as $field => $definitions)
+        {
+            $rule = array();
+            foreach($definitions as $key => $value)
+            {
+                switch($key)
+                {
+                    case 'is_nullable':
+                        if(!$value) $rule[] = array('not_empty');
+                        break;
+                    case 'maxlength':
+                        $rule[] = array('max_length', array(':value', $value));
+                        break;
+                }
+            }
+            $rules[$field] = $rule;
+        }
+        return $rules;              
     }
     
 }

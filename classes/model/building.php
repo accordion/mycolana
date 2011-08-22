@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class Model_Building extends ORM {
+class Model_Building extends Model_Base {
     
 	protected $_has_many = array('objects' => array());
 }

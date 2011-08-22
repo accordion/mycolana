@@ -62,13 +62,16 @@ class View_Form extends Kostache {
         }  
         
         $input .= 'name="' . $column . '" ';
-        $input .= 'value="' . $this->model->$column . '" ';
+        if($definitions['type'] != 'textarea')
+        {
+            $input .= 'value="' . $this->model->$column . '" ';
+        }
         if(isset($definitions['maxlength'])) $input .= 'maxlength="' . $definitions['maxlength'] . '" ';
     
         switch($definitions['type'])
         {
             case 'textarea':
-                $input .= '></textarea><br />';
+                $input .= '>'. $this->model->$column .'</textarea><br />';
                 break;
             case 'hidden':
                 $input .= '/>';

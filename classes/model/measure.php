@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class Model_Measure extends ORM {
+class Model_Measure extends Model_Base {
 	
 	protected $_belongs_to = array('object' => array());
 	
