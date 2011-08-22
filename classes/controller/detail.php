@@ -1,48 +1,26 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-// ------------------------------------------------------------------------
 
 /**
- * myColex detail Controller extends Performer
+ * Detail controller
  *
- * @package		myColex
- * @subpackage	Controller
- * @category	Controller
- * @author		Stefan Buerer
- * @link		http://www.collector.ch
+ * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-
-// ------------------------------------------------------------------------
-
-class Controller_Detail extends Controller_Form {
-
-	public function __construct(Request $request, Response $response)
+class Controller_Detail extends Controller_Base { 
+    
+    public function action_index()
     {
-        parent::__construct($request,  $response);
-    }   
-
-     public function before()
-      {
-         parent::before();
-  		 
-  	  }
-	
- 
-   	 /*
-	 Default controller behaviour, show empty form
-	 */
-	public function action_index()
-	{
-		
-	}
-	
-	
-	
-	
-	/* The after() method is called after your controller action. parent::after bottom */
-    public function after()
-      {
-		parent::after();
-      }
-
+        $this->layout->content = "<h2>Index action</h2>";
+    }
+    
+    public function action_object()
+    {
+        $id = $this->request->param('id');
+        $object = Model_Base::factory('object', $id);
+        $this->layout->content = new View_Form($object->get_form_config(), 
+                $this->request->action(), $object);
+        
+//        echo Kohana_Debug::vars($object->get_tablecolumns_info());
+//        echo '<br /><br />';
+//        echo Kohana_Debug::vars($object->get_form_config());
+    }
 }
-?>
