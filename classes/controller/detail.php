@@ -23,7 +23,7 @@ class Controller_Detail extends Controller_Base {
                 $this->object_post();
                 break;
             default:
-                throw new HTTP_Exception_404('Method not allowed');          
+                throw new HTTP_Exception_404();          
         }
     }
     
@@ -62,24 +62,52 @@ class Controller_Detail extends Controller_Base {
     
     public function action_measure()
     {
-        $id = $this->request->param('id');
-        $measurement = Model_Base::factory('measure', $id);
-        
-        if(!$measurement->loaded() AND $id != null) 
+        switch($this->request->method())
         {
-            $this->layout->content = 'measurement not found';
+            case HTTP_Request::GET:
+                $this->measure_get();
+                break;
+            case HTTP_Request::POST:
+                $this->measure_post();
+                break;
+            default:
+                throw new HTTP_Exception_404();          
+        }       
+    }
+    
+    private function measure_get()
+    {
+        $id = $this->request->param('id');
+        $measure = Model_Base::factory('measure', $id);
+        
+        if(!$measure->loaded() AND $id != null) 
+        {
+            $this->layout->content = 'measure not found';
         }
         else
         {
-//            $this->layout->content = new View_Form($measurement->get_form_config(), 
-//                $this->request->action(), $measurement);
-            
-            // bare layout
-            $this->layout = new View_Form($measurement->get_config(), 
-                $this->request->uri(), $measurement);
+            $this->layout = new View_Form($measure->get_config(), 
+                $this->request->uri(), $measure);
         }
-        
-        
+    }
+    
+    private function measure_post()
+    {
+        try
+        {
+            $id = $this->request->param('id');
+            $measure = Model_Base::factory('measure', $id);
+            $measure->values($_POST);
+            $id = $measure->save();
+            $this->layout = null;
+            echo 'measurement added';
+        }
+        catch(ORM_Validation_Exception $e)
+        {
+            $this->layout = null;
+            echo 'Errors encountered: <br />';
+            print_r($e->errors());
+        } 
     }
         
 }

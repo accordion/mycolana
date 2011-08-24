@@ -28,14 +28,20 @@ class View_Form extends Kostache {
     
     private function _render_form()
     {      
-        $form = Form::open($this->action, array('method' => $this->method));
+        $form = Form::open($this->action, array(
+            'method' => $this->method,
+            'id' => 'form_' . Request::current()->action()
+        ));
         
         foreach($this->config as $column => $definitions)
         {
             $form .= $this->_create_input($column, $definitions);
         }
        
-        $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));
+        $form .= Form::button('submit_' . Request::current()->action(), 'Speichern', 
+                array('type' => 'submit',
+                    'id' => 'submit_' . Request::current()->action()
+                ));
         $form .= Form::button('reset', 'Leeren', array('type' => 'reset'));
         $form .= Form::close();
         

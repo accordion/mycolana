@@ -17,10 +17,16 @@ class View_List_Object extends View_Pagination_Basic
     
     public function objects()
     {
+        $route = Route::get('default');
         $objects = array();
         foreach ($this->pagination->query() as $object)
         {
         	$object_array = $object->as_array();
+                $object_array['uri'] = '/' . $route->uri(array(
+                    'controller' => 'detail', 
+                    'action' => 'object',
+                    'id' => $object->id
+                ));
         	$measures = array();
             foreach ($object->measure->find_all() as $measure)
             {
@@ -31,7 +37,6 @@ class View_List_Object extends View_Pagination_Basic
             $object_array['measure'] = $measures;
             $objects[] = $object_array;
         }
-//        echo Kohana_Debug::vars($objects);
         return $objects;
     }
 }

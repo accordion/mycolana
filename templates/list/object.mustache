@@ -3,8 +3,12 @@
         <ul>
             {{#objects}}
             <li>
-            	<strong>{{id}}:</strong> ({{obinv}} : {{obobject}}) <br />
-                        
+            	<strong><a href="{{uri}}">{{id}}:</strong> ({{obinv}} : {{obobject}})</a> <br />
+                <div class="measurements">
+
+                <button class="addMeasurement">Add Measurement</button>
+                <input type="hidden" name="object_id" value="{{id}}" />   
+                <div class="form"></div>
            	{{#measure}}
                         Value: {{value}}<br />
 <!-- 
@@ -13,7 +17,7 @@
 	            	value: {{mevalue}} <br />
 -->
             	{{/measure}}
-
+                </div>
             </li>
             {{/objects}}
         </ul>
