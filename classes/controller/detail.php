@@ -82,12 +82,29 @@ class Controller_Detail extends Controller_Base {
         
         if(!$measure->loaded() AND $id != null) 
         {
-            $this->layout->content = 'measure not found';
+            $error_msg = 'measure not found';
+            $this->set_view($error_msg);      
         }
         else
         {
-            $this->layout = new View_Form($measure->get_config(), 
-                $this->request->uri(), $measure);
+            $this->set_view(new View_Form($measure->get_config(), 
+                    $this->request->uri(), $measure));
+        }
+    }
+    
+    /**
+     * Sets the view depending on whether the request came from an AJAX reqeust.
+     * @param  $view 
+     */
+    private function set_view($view)
+    {
+        if($this->request->is_ajax()) 
+        {
+            $this->layout = $view;
+        }
+        else 
+        {
+            $this->layout->content = $view;
         }
     }
     
