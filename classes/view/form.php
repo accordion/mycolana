@@ -55,12 +55,14 @@ class View_Form extends Kostache {
         {
             case 'textarea':
                 return $column . ': ' . Form::textarea($column, 
-                        $this->model->$column) . "<br />\n";        
+                        $this->model->$column) . "<br />\n";  
             case 'hidden':
                 $attributes['type'] = 'hidden';
                 if(isset($definitions['maxlength'])) 
                     $attributes['maxlength'] = $definitions['maxlength'];
-                return Form::input($column, $this->model->$column, $attributes) . "\n";         
+                return Form::input($column, $this->model->$column, $attributes) . "\n"; 
+            case 'date':
+                $attributes['id'] = 'datepicker';
             default:
                 if(isset($definitions['maxlength'])) 
                     $attributes['maxlength'] = $definitions['maxlength'];

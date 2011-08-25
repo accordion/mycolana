@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    
+    $("#datepicker").click(function() {
+        $(this).datepicker();
+    });
+    
     $(".addMeasurement").click(function() {
         var sidebar = $("#sidebar");
         var obid = $(this).nextAll('input:hidden').val();

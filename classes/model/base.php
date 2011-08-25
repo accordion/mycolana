@@ -37,7 +37,7 @@ abstract class Model_Base extends ORM {
                     case 'data_type':
                         if($value == 'date') 
                         {
-                            $column_cfg['type'] = 'datepicker';
+                            $column_cfg['type'] = 'date';
                         }
                         elseif($value == 'tinyint') {
                             $column_cfg['type'] = 'checkbox';
