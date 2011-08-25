@@ -3,14 +3,15 @@
 
             {{#objects}}
             <li>
-            	<strong><a href="{{uri}}">{{id}}:</strong> ({{obinv}} : {{obobject}})</a> <br />
+                <strong><a href="{{uri}}">{{id}}:</strong> ({{obinv}} : {{obobject}})</a>
                 <div class="measurements">
-                <button class="addMeasurement">Add Measurement</button><br />
-                <input type="hidden" name="object_id" value="{{id}}" />   
-                <div class="form"></div>
-           	{{#measure}}
-                    Value: {{value}}<br />
-            	{{/measure}}
+                    <button class="addMeasurement">Add Measurement</button> 
+                    <input type="hidden" name="object_id" value="{{id}}" /><br />
+                   
+<hr />
+                    {{#measure}}
+                        Value: {{value}}<br />
+                    {{/measure}}
                 </div>
             </li>
             {{/objects}}
