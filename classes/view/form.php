@@ -37,11 +37,9 @@ class View_Form extends Kostache {
         {
             $form .= $this->_create_input($column, $definitions);
         }
-       
-        $form .= Form::button('submit_' . Request::current()->action(), 'Speichern', 
-                array('type' => 'submit',
-                    'id' => 'submit_' . Request::current()->action()
-                ));
+        
+        $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));        
+        $form .= Form::button('search', 'Suchen', array('type' => 'submit'));
         $form .= Form::button('reset', 'Leeren', array('type' => 'reset'));
         $form .= Form::close();
         

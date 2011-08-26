@@ -7,12 +7,17 @@
  */
 class View_List_Object extends View_Pagination_Basic
 {
-    public $title = 'All objects with obinv > 200 paginated:';
+    public $title = 'Objects:';
+    private $orm_model;
+    
+    public function __construct($orm_model) {
+        $this->orm_model = $orm_model;
+        parent::__construct();
+    }
     
     protected function _create_pagination() 
     {
-    	$orm_model = ORM::factory('object')->where('obinv', '>', 200);
-    	return new ORMPagination(array('orm_model' => $orm_model));    
+    	return new ORMPagination(array('orm_model' => $this->orm_model));    
     }
     
     public function objects()

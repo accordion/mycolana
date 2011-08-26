@@ -20,7 +20,14 @@ class Controller_Detail extends Controller_Base {
                 $this->object_get();
                 break;
             case HTTP_Request::POST:
-                $this->object_post();
+                if($this->is_search())
+                {
+                    $this->object_search();
+                }
+                else
+                {
+                    $this->object_post();
+                }     
                 break;
             default:
                 throw new HTTP_Exception_404();          
@@ -55,9 +62,18 @@ class Controller_Detail extends Controller_Base {
         }
         catch(ORM_Validation_Exception $e)
         {
-            echo 'Errors encountered: <br />';
-            print_r($e->errors());
+            $error = 'Errors encountered: <br />';
+            $error .= $e->__toString();
+            $error .= Kohana_Debug::vars($e->errors());
+            $this->layout->content = $error;
         }  
+    }
+    
+    private function object_search()
+    {
+         $this->layout->content = Kohana_Debug::vars($_POST);
+         SessionHandler::set_search_query($_POST);
+         $this->request->redirect('list/object?search');
     }
     
     public function action_measure()
