@@ -1,5 +1,12 @@
 $(document).ready(function() {
     
+    /*
+     * Clears all forms completeley even the default values
+     */
+    $("[name=reset]").click(function() {
+        $("form").clearForm();
+    });
+    
     $("#datepicker").click(function() {
         $(this).datepicker();
     });

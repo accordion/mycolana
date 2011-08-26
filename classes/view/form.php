@@ -40,7 +40,10 @@ class View_Form extends Kostache {
         
         $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));        
         $form .= Form::button('search', 'Suchen', array('type' => 'submit'));
-        $form .= Form::button('reset', 'Leeren', array('type' => 'reset'));
+        $form .= Form::button('reset', 'Leeren', array(
+            'id' => 'reset',
+            'onclick' => 'return false'
+            ));
         $form .= Form::close();
         
         return $form;
