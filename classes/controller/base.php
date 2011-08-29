@@ -30,4 +30,9 @@ class Controller_Base extends Controller {
         echo $this->layout;
         parent::after();
     }
+    
+    protected function is_search()
+    {
+        return isset($_POST['search']);
+    }
 }

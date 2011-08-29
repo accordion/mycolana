@@ -7,17 +7,27 @@
  */
 class View_Form extends Kostache {
     
-    private $config;
     private $action;
     private $model;
+    private $errors;
     private $method;
     
-    public function __construct($config, $action, $model, $method = 'post')
+    /**
+     *
+     * @param string $action
+     * @param Base_Model $model
+     * @param ORM_Validation_Exception $exception 
+     * @param string $method post or get
+     */
+    public function __construct($action, $model, $exception = null, $method = 'post')
     {
         parent::__construct();
-        $this->config = $config;
         $this->action = $action;
         $this->model = $model;
+        if($exception != null)
+        {
+            $this->errors = $exception->errors('models');   
+        }
         $this->method = $method;
     }
     
@@ -27,58 +37,55 @@ class View_Form extends Kostache {
     }
     
     private function _render_form()
-    {
-        $form = '';
-        $form .= '<form action="' . $this->action . '" method="' . $this->method . '">';
+    {      
+        $form = Form::open($this->action, array(
+            'method' => $this->method,
+            'id' => 'form_' . Request::current()->action()
+        ));
         
-        foreach($this->config as $column => $definitions)
+        $form .= "\n";
+        
+        foreach($this->model->get_config() as $column => $definitions)
         {
             $form .= $this->_create_input($column, $definitions);
+            $form .= "\n";
+            $error = isset($this->errors[$column]) ? $this->errors[$column] : '';
+            $form .= Form::label($column, $error);
+            $form .= "<br />\n";
         }
         
-        $form .= '<input type="submit" value="Absenden" />';
-        $form .= '<input type="reset" value="Formular löschen" />';
-        $form .= '</form>';
+        $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));        
+        $form .= Form::button('search', 'Suchen', array('type' => 'submit'));
+        $form .= Form::button('reset', 'Leeren', array(
+            'id' => 'reset',
+            'onclick' => 'return false'
+            ));
+        $form .= Form::close();
         
         return $form;
     }
     
     private function _create_input($column, $definitions)
     {
-        $input = '';
-        switch($definitions['type'])
-        {
-            case 'hidden':
-                $input .= '<input type="hidden" ';
-                break;
-            case 'textarea':
-                $input .= $column . ': ';
-                $input .= '<textarea ';
-                break;
-            default:
-                $input .= $column . ': ';
-                $input .= '<input type="text" ';
-                break;
-        }  
-        
-        $input .= 'name="' . $column . '" ';
-        $input .= 'value="' . $this->model->$column . '" ';
-        if(isset($definitions['maxlength'])) $input .= 'maxlength="' . $definitions['maxlength'] . '" ';
-    
+        $attributes = array();
         switch($definitions['type'])
         {
             case 'textarea':
-                $input .= '></textarea><br />';
-                break;
+                return $column . ': ' . Form::textarea($column, 
+                        $this->model->$column);  
             case 'hidden':
-                $input .= '/>';
-                break;
+                $attributes['type'] = 'hidden';
+                if(isset($definitions['maxlength'])) 
+                    $attributes['maxlength'] = $definitions['maxlength'];
+                return Form::input($column, $this->model->$column, $attributes); 
+            case 'date':
+                $attributes['id'] = 'datepicker';
             default:
-                $input .= '/><br />';
-                break;
-        }
-        
-        return $input . "\n";
+                if(isset($definitions['maxlength'])) 
+                    $attributes['maxlength'] = $definitions['maxlength'];
+                return $column . ': ' . Form::input($column, $this->model->$column, 
+                        $attributes);
+        }   
     }
     
 }
