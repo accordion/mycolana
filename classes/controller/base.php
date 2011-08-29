@@ -10,7 +10,7 @@ class Controller_Base extends Controller {
     /**
      * Layout of the site
      * 
-     * @var View_Layout_Main  
+     * @var View_Layout_Main 
      */
     protected $layout;
     
