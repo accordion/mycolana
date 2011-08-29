@@ -21,8 +21,8 @@ class Controller_List extends Controller_Base {
             $query = SessionHandler::get_search_query();
             foreach(array_keys($objects->list_columns()) as $column)
             {
-                $value = $query[$column];
-                if($value != "")
+                $value = Arr::get($query, $column, '');
+                if($value != '')
                    $objects->and_where($column, '=', $value);
             }
         }

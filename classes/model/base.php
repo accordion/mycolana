@@ -94,5 +94,14 @@ abstract class Model_Base extends ORM {
         return $rules;              
     }
     
+    /**
+     * Defines custom field definitions for the form
+     * @return array with field definition to overwrite the generated ones
+     */
+    public function fields()
+    {
+        return array();
+    }
+    
 }
 

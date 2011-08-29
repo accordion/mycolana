@@ -20,15 +20,15 @@ $(document).ready(function() {
     
     $(".addMeasurement").click(function() {
         var sidebar = $("#sidebar");
-        var obid = $(this).nextAll('input:hidden').val();
-        
+        var obid = $(this).nextAll('[name=object_id]').val();
+
         sidebar.load('/detail/measure', function() {
             var form = $('#form_measure');
             form.ajaxForm({
                 target: sidebar, 
                 success: reloadPage
             });
-            form.find("input:hidden").attr('value', obid);
+            form.find("[name=object_id]").attr('value', obid);
         });
     });
 });
