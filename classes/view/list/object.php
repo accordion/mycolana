@@ -7,20 +7,31 @@
  */
 class View_List_Object extends View_Pagination_Basic
 {
-    public $title = 'All objects with obinv > 200 paginated:';
+    public $title = 'Objects:';
+    private $orm_model;
+    
+    public function __construct($orm_model) {
+        $this->orm_model = $orm_model;
+        parent::__construct();
+    }
     
     protected function _create_pagination() 
     {
-    	$orm_model = ORM::factory('object')->where('obinv', '>', 200);
-    	return new ORMPagination(array('orm_model' => $orm_model));    
+    	return new ORMPagination(array('orm_model' => $this->orm_model));    
     }
     
     public function objects()
     {
+        $route = Route::get('default');
         $objects = array();
         foreach ($this->pagination->query() as $object)
         {
         	$object_array = $object->as_array();
+                $object_array['uri'] = '/' . $route->uri(array(
+                    'controller' => 'detail', 
+                    'action' => 'object',
+                    'id' => $object->id
+                ));
         	$measures = array();
             foreach ($object->measure->find_all() as $measure)
             {
@@ -31,7 +42,6 @@ class View_List_Object extends View_Pagination_Basic
             $object_array['measure'] = $measures;
             $objects[] = $object_array;
         }
-//        echo Kohana_Debug::vars($objects);
         return $objects;
     }
 }

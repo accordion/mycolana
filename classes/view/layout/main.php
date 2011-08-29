@@ -9,4 +9,6 @@ class View_Layout_Main extends Kostache {
     public $header;
     public $content;
     public $footer;
+    public $title = 'Hauptmenü';
+
 }

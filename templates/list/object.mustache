@@ -1,19 +1,16 @@
         <p>{{title}}</p>
         {{>pagination}}
-        <ul>
-            {{#objects}}
-            <li>
-            	<strong>{{id}}:</strong> ({{obinv}} : {{obobject}}) <br />
-                        
-           	{{#measure}}
-                        Value: {{value}}<br />
-<!-- 
-	            	Measurement: {{id}}
-	            	dim: {{medim}}
-	            	value: {{mevalue}} <br />
--->
-            	{{/measure}}
 
+        {{#objects}}
+            <li>
+                <strong><a href="{{uri}}">{{id}}:</strong> ({{obinv}} : {{obobject}})</a>
+                <div class="measurements">
+                    <button class="addMeasurement">Add Measurement</button>
+                    <input type="hidden" name="object_id" value="{{id}}" />
+                    <br /><br /><br />
+                    {{#measure}}
+                        Value: {{value}}<br />
+                    {{/measure}}
+                </div>
             </li>
             {{/objects}}
-        </ul>
