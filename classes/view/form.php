@@ -7,17 +7,27 @@
  */
 class View_Form extends Kostache {
     
-    private $config;
     private $action;
     private $model;
+    private $errors;
     private $method;
     
-    public function __construct($config, $action, $model, $method = 'post')
+    /**
+     *
+     * @param string $action
+     * @param Base_Model $model
+     * @param ORM_Validation_Exception $exception 
+     * @param string $method post or get
+     */
+    public function __construct($action, $model, $exception = null, $method = 'post')
     {
         parent::__construct();
-        $this->config = $config;
         $this->action = $action;
         $this->model = $model;
+        if($exception != null)
+        {
+            $this->errors = $exception->errors('models');   
+        }
         $this->method = $method;
     }
     
@@ -33,9 +43,15 @@ class View_Form extends Kostache {
             'id' => 'form_' . Request::current()->action()
         ));
         
-        foreach($this->config as $column => $definitions)
+        $form .= "\n";
+        
+        foreach($this->model->get_config() as $column => $definitions)
         {
             $form .= $this->_create_input($column, $definitions);
+            $form .= "\n";
+            $error = isset($this->errors[$column]) ? $this->errors[$column] : '';
+            $form .= Form::label($column, $error);
+            $form .= "<br />\n";
         }
         
         $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));        
@@ -56,19 +72,19 @@ class View_Form extends Kostache {
         {
             case 'textarea':
                 return $column . ': ' . Form::textarea($column, 
-                        $this->model->$column) . "<br />\n";  
+                        $this->model->$column);  
             case 'hidden':
                 $attributes['type'] = 'hidden';
                 if(isset($definitions['maxlength'])) 
                     $attributes['maxlength'] = $definitions['maxlength'];
-                return Form::input($column, $this->model->$column, $attributes) . "\n"; 
+                return Form::input($column, $this->model->$column, $attributes); 
             case 'date':
                 $attributes['id'] = 'datepicker';
             default:
                 if(isset($definitions['maxlength'])) 
                     $attributes['maxlength'] = $definitions['maxlength'];
                 return $column . ': ' . Form::input($column, $this->model->$column, 
-                        $attributes) . "<br />\n";
+                        $attributes);
         }   
     }
     

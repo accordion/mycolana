@@ -45,8 +45,7 @@ class Controller_Detail extends Controller_Base {
         }
         else
         {
-            $this->layout->content = new View_Form($object->get_config(), 
-                $this->request->uri(), $object);
+            $this->layout->content = new View_Form($this->request->uri(), $object);
         }
     }
     
@@ -62,10 +61,8 @@ class Controller_Detail extends Controller_Base {
         }
         catch(ORM_Validation_Exception $e)
         {
-            $error = 'Errors encountered: <br />';
-            $error .= $e->__toString();
-            $error .= Kohana_Debug::vars($e->errors());
-            $this->layout->content = $error;
+            $this->layout->content = new View_Form($this->request->uri(), 
+                    $object, $e);
         }  
     }
     
@@ -103,8 +100,7 @@ class Controller_Detail extends Controller_Base {
         }
         else
         {
-            $this->set_view(new View_Form($measure->get_config(), 
-                    $this->request->uri(), $measure));
+            $this->set_view(new View_Form($this->request->uri(), $measure));
         }
     }
     
@@ -137,9 +133,8 @@ class Controller_Detail extends Controller_Base {
         }
         catch(ORM_Validation_Exception $e)
         {
-            $this->layout = null;
-            echo 'Errors encountered: <br />';
-            print_r($e->errors());
+            $this->layout->content = new View_Form($this->request->uri(), 
+                    $measure, $e);
         } 
     }
         
