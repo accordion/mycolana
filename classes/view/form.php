@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Displays a Form
+ * Generates a form based on the database and the custom field options
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
@@ -45,8 +45,10 @@ class View_Form extends Kostache {
         
         $form .= "\n";
         
-        foreach($this->model->get_config() as $column => $definitions)
+        $spec = array_replace_recursive($this->model->get_config(), $this->model->fields());
+        foreach($spec as $column => $definitions)
         {
+            $form .= Form::label($column, $column . ': ');
             $form .= $this->_create_input($column, $definitions);
             $form .= "\n";
             $error = isset($this->errors[$column]) ? $this->errors[$column] : '';
@@ -59,7 +61,8 @@ class View_Form extends Kostache {
         $form .= Form::button('reset', 'Leeren', array(
             'id' => 'reset',
             'onclick' => 'return false'
-            ));
+        ));
+        
         $form .= Form::close();
         
         return $form;
@@ -67,24 +70,27 @@ class View_Form extends Kostache {
     
     private function _create_input($column, $definitions)
     {
-        $attributes = array();
+        $options = Arr::get($definitions, 'options', null);
         switch($definitions['type'])
         {
             case 'textarea':
-                return $column . ': ' . Form::textarea($column, 
-                        $this->model->$column);  
+                return Form::textarea($column, $this->model->$column, $options);  
             case 'hidden':
-                $attributes['type'] = 'hidden';
+                $options['type'] = 'hidden';
                 if(isset($definitions['maxlength'])) 
-                    $attributes['maxlength'] = $definitions['maxlength'];
-                return Form::input($column, $this->model->$column, $attributes); 
+                    $options['maxlength'] = $definitions['maxlength'];
+                return Form::input($column, $this->model->$column, $options); 
+            case 'checkbox':
+                return Form::checkbox($column, 1, (bool)$this->model->$column);
+            case 'select':
+                $selected = Arr::get($definitions,'selected', null);
+                return Form::select($column, $options, $selected);
             case 'date':
-                $attributes['id'] = 'datepicker';
+                $options['id'] = 'datepicker';
             default:
                 if(isset($definitions['maxlength'])) 
-                    $attributes['maxlength'] = $definitions['maxlength'];
-                return $column . ': ' . Form::input($column, $this->model->$column, 
-                        $attributes);
+                    $options['maxlength'] = $definitions['maxlength'];
+                return Form::input($column, $this->model->$column, $options);
         }   
     }
     
