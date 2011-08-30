@@ -27,11 +27,7 @@ class View_List_Object extends View_Pagination_Basic
         foreach ($this->pagination->query() as $object)
         {
         	$object_array = $object->as_array();
-                $object_array['uri'] = '/' . $route->uri(array(
-                    'controller' => 'detail', 
-                    'action' => 'object',
-                    'id' => $object->id
-                ));
+                $object_array['uri'] = URL::site(NULL, TRUE) . 'detail/object/' . $object->id;
         	$measures = array();
             foreach ($object->measure->find_all() as $measure)
             {

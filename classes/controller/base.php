@@ -12,7 +12,7 @@ class Controller_Base extends Controller {
      * 
      * @var View_Layout_Main 
      */
-    protected $layout;
+    public $layout;
     
     public function before()
     {
@@ -34,5 +34,21 @@ class Controller_Base extends Controller {
     protected function is_search()
     {
         return isset($_POST['search']);
+    }
+    
+        /**
+     * Sets the view depending on whether the request came from an AJAX reqeust.
+     * @param  $view 
+     */
+    public function set_view($view)
+    {
+        if($this->request->is_ajax()) 
+        {
+            $this->layout = $view;
+        }
+        else 
+        {
+            $this->layout->content = $view;
+        }
     }
 }
