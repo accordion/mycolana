@@ -133,8 +133,7 @@ class Controller_Detail extends Controller_Base {
         }
         catch(ORM_Validation_Exception $e)
         {
-            $this->layout->content = new View_Form($this->request->uri(), 
-                    $measure, $e);
+            $this->set_view(new View_Form($this->request->uri(), $measure, $e));
         } 
     }
         
