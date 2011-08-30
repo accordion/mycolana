@@ -57,7 +57,7 @@ class Controller_Detail extends Controller_Base {
             $object = Model_Base::factory('object', $id);
             $object->values($_POST);
             $id = $object->save();
-            $this->request->redirect('detail/object/' . $id);
+            $this->request->redirect(URL::site(NULL, TRUE) . 'detail/object/' . $id);
         }
         catch(ORM_Validation_Exception $e)
         {

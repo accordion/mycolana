@@ -6,6 +6,7 @@ return array(
     
 // Header
     'detail' => 'Detail',
+    'list' => 'Liste',
     'object' => 'Objekt',
     
 // Object
