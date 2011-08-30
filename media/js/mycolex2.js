@@ -3,13 +3,11 @@ $(document).ready(function() {
     /*
      * Clears all forms completeley even the default values
      */
-    $("[name=reset]").click(function() {
-        $("form").clearForm();
-    });
-    
-    $("#datepicker").click(function() {
-        $(this).datepicker();
-    });
+    function addResetListener(selector) {
+        $("[name=reset]").click(function() {
+            $(selector).clearForm();
+         });
+    }
     
     /*
      * Releads the page after 3 seconds
@@ -18,12 +16,19 @@ $(document).ready(function() {
         setTimeout('location.reload()', 3000);
     }
     
+    addResetListener("form");
+    
+    $("#datepicker").click(function() {
+        $(this).datepicker();
+    });
+    
     $(".addMeasurement").click(function() {
         var sidebar = $("#sidebar");
         var obid = $(this).nextAll('[name=object_id]').val();
 
         sidebar.load('/detail/measure', function() {
             var form = $('#form_measure');
+            addResetListener(form);
             form.ajaxForm({
                 target: sidebar, 
                 success: reloadPage

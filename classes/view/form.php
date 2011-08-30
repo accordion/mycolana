@@ -33,37 +33,36 @@ class View_Form extends Kostache {
     
     public function form()
     {
-        return $this->_render_form();
-    }
-    
-    private function _render_form()
-    {      
-        $form = Form::open($this->action, array(
+        $form = array();
+        $form['opening'] = Form::open($this->action, array(
             'method' => $this->method,
             'id' => 'form_' . Request::current()->action()
         ));
         
-        $form .= "\n";
-        
+        // Elements
+        $elements = array();
         $spec = array_replace_recursive($this->model->get_config(), $this->model->fields());
         foreach($spec as $column => $definitions)
         {
-            $form .= Form::label($column, $column . ': ');
-            $form .= $this->_create_input($column, $definitions);
-            $form .= "\n";
             $error = isset($this->errors[$column]) ? $this->errors[$column] : '';
-            $form .= Form::label($column, $error);
-            $form .= "<br />\n";
+            $elements[] = array(
+                'label' =>  Form::label($column, __($column) . ': '),
+                'input' => $this->_create_input($column, $definitions),
+                'error' => Form::label($column, $error)
+            );
         }
+        $form['elements'] = $elements;
         
-        $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));        
-        $form .= Form::button('search', 'Suchen', array('type' => 'submit'));
-        $form .= Form::button('reset', 'Leeren', array(
-            'id' => 'reset',
-            'onclick' => 'return false'
-        ));
-        
-        $form .= Form::close();
+        // Closing
+        $form['closing'] = array(
+            array('element' => Form::button('submit', __('Save'), array('type' => 'submit'))),
+            array('element' => Form::button('search', __('Search'), array('type' => 'submit'))),
+            array('element' => Form::button('reset', __('Reset'), array(
+                'id' => 'reset',
+                'onclick' => 'return false'
+            ))),
+            array('element' => Form::close())
+        );
         
         return $form;
     }

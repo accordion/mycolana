@@ -1,1 +1,15 @@
-{{&form}}
+{{#form}}
+    {{&opening}}
+    
+    {{#elements}}
+        {{&label}}
+        <br />
+        {{&input}}
+        {{&error}}
+        <br />
+    {{/elements}}
+
+    {{#closing}}
+        {{&element}}
+    {{/closing}}
+{{/form}}
