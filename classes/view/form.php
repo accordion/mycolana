@@ -48,7 +48,7 @@ class View_Form extends Kostache {
         $spec = array_replace_recursive($this->model->get_config(), $this->model->fields());
         foreach($spec as $column => $definitions)
         {
-            $form .= Form::label($column, $column . ': ');
+            $form .= Form::label($column, __($column) . ': ');
             $form .= $this->_create_input($column, $definitions);
             $form .= "\n";
             $error = isset($this->errors[$column]) ? $this->errors[$column] : '';
@@ -56,9 +56,9 @@ class View_Form extends Kostache {
             $form .= "<br />\n";
         }
         
-        $form .= Form::button('submit', 'Speichern', array('type' => 'submit'));        
-        $form .= Form::button('search', 'Suchen', array('type' => 'submit'));
-        $form .= Form::button('reset', 'Leeren', array(
+        $form .= Form::button('submit', __('Save'), array('type' => 'submit'));        
+        $form .= Form::button('search', __('Search'), array('type' => 'submit'));
+        $form .= Form::button('reset', __('Reset'), array(
             'id' => 'reset',
             'onclick' => 'return false'
         ));

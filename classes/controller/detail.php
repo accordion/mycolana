@@ -41,7 +41,7 @@ class Controller_Detail extends Controller_Base {
         
         if(!$object->loaded() AND $id != null) 
         {
-            $this->layout->content = 'object not found';
+            $this->layout->content = __('Object not found');
         }
         else
         {
@@ -95,7 +95,7 @@ class Controller_Detail extends Controller_Base {
         
         if(!$measure->loaded() AND $id != null) 
         {
-            $error_msg = 'measure not found';
+            $error_msg = __('Measure not found');
             $this->set_view($error_msg);      
         }
         else
@@ -128,8 +128,8 @@ class Controller_Detail extends Controller_Base {
             $measure = Model_Base::factory('measure', $id);
             $measure->values($_POST);
             $id = $measure->save();
-            $this->layout = null;
-            echo 'measurement added';
+            $msg = __('Measurement added');
+            $this->set_view($msg);
         }
         catch(ORM_Validation_Exception $e)
         {
