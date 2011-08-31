@@ -10,19 +10,10 @@ class Controller_Detail extends Controller_Base {
     public function before()
     {
         parent::before();
+
+        // TODO: check if custom handler for the action exists, else use generic handler
         
-        $handler = null;
-        switch($this->request->action())
-        {
-            case 'object':
-                $handler = new Controller_Action_Object($this);
-                break;
-            case 'measure':
-                $handler = new Controller_Action_Measure($this);
-                break;
-            default:
-                throw new HTTP_Exception_404;
-        }       
+        $handler = new Controller_Action_Generic($this);
         
         switch($this->request->method())
         {
