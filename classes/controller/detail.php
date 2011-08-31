@@ -35,19 +35,15 @@ class Controller_Detail extends Controller_Base {
         }
     }
     
-    public function action_object()
-    {
-        // Kohana needs this method or else it will throw a 404
-    }
-    
-    public function action_measure()
-    {
-        // Kohana needs this method or else it will throw a 404
-    }
-    
     public function action_index()
     {
-        $this->layout->content = "<h2>Index action</h2>";
+//        Works with the following route from bootstrap.php:
+//        
+//        Route::set('detail', 'detail(/<model>(/<id>))')
+//          ->defaults(array(
+//              'controller' => 'detail',
+//		'action'     => 'index',
+//          ));
     }
         
 }

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Abstract base class for the action handlers
+ *Interface for the action handlers
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */

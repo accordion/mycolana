@@ -16,7 +16,7 @@ class Controller_Action_Generic implements Controller_Action_Handler {
     {
         $this->controller = $controller;
         $this->id = $controller->request->param('id');
-        $this->model_name = $controller->request->action();
+        $this->model_name = $controller->request->param('model');
         $this->model = Model_Base::factory($this->model_name, $this->id);
     }
     
