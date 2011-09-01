@@ -17,7 +17,15 @@ class Controller_Detail extends Controller_Base {
 //		'action'     => 'index',
 //          ));
         
-        $handler = new Controller_Action_Generic($this);
+        $handler = null;
+        $class = 'Controller_Action_' . ucfirst($this->request->param('model'));
+        if(class_exists($class)) {
+            $handler = new $class($this);
+        }
+        else 
+        {
+            $handler = new Controller_Action_Generic($this);  
+        }
         
         switch($this->request->method())
         {
