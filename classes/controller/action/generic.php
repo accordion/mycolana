@@ -34,7 +34,7 @@ class Controller_Action_Generic implements Controller_Action_Handler {
         }
     }
     
-    public function handle_post() 
+    public function handle_save() 
     {
         try
         {
@@ -44,8 +44,23 @@ class Controller_Action_Generic implements Controller_Action_Handler {
         }
         catch(ORM_Validation_Exception $e)
         {
-            $this->controller->set_view(new View_Form($this->controller->request->uri(), $this->model, $e));
+            $this->controller->set_view(new View_Form(
+                    $this->controller->request->uri(), $this->model, $e));
         } 
+    }
+    
+    public function handle_delete()
+    {
+        try
+        {
+            $this->model->delete();
+            $this->controller->set_view(__(ucfirst($this->model_name) . ' deleted'));
+        }
+        catch(ORM_Validation_Exception $e)
+        {
+            $this->controller->set_view(new View_Form(
+                    $this->controller->request->uri(), $this->model, $e));
+        }
     }
 
     public function handle_search() 

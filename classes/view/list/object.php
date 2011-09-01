@@ -31,8 +31,14 @@ class View_List_Object extends View_Pagination_Basic
         	$measures = array();
             foreach ($object->measure->find_all() as $measure)
             {
-//            	 $measures[] = $measure->as_array();
-                $measures[] = array('value' => $measure->get_values());
+                $m = $measure->as_array();
+                $m['form_open'] = Form::open(URL::site(null, true) . 'detail/measure/' . $measure->id);
+                $m['delete'] = Form::input('delete', 'delete',  array('type' => 'submit'));
+                $m['form_close'] = Form::close();
+            	
+//                $measure['delete'] = $delete;
+                $measures[] = $m;
+//                $measures[] = array('value' => $measure->get_values());
             }
             
             $object_array['measure'] = $measures;

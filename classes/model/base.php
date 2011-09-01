@@ -7,15 +7,9 @@
  */
 abstract class Model_Base extends ORM {
     
-    public function get_tablecolumns_info()
-    {
-        $db = Database::instance();
-        return $db->list_columns($this->_table_name);
-    }
-    
     public function get_config()
     {
-        $columns = $this->get_tablecolumns_info();
+        $columns = $this->list_columns();
         $config = array();
         foreach($columns as $column => $definitions)
         {
@@ -102,6 +96,22 @@ abstract class Model_Base extends ORM {
     {
         return array();
     }
+    
+    /*
+     * Overwritten to detect changes made to checkboxes.
+     */
+    public function values(array $values, array $expected = NULL) {
+        foreach(array_keys($this->list_columns()) as $column)
+        {
+            if(!key_exists($column, $values))
+            {
+                $values[$column] = 0;
+            }
+        }      
+        return parent::values($values, $expected);
+    }
+
+
     
 }
 

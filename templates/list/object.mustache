@@ -9,8 +9,15 @@
                     <input type="hidden" name="object_id" value="{{id}}" />
                     <br /><br /><br />
                     {{#measure}}
-                        Value: {{value}}<br />
+                        {{&form_open}}
+                            <label>
+                                <strong>Measurement: {{id}}</strong>
+                                (dim: {{medim}}, value: {{mevalue}})
+                            </label>    
+                            {{&delete}}          
+                        {{&form_close}}
                     {{/measure}}
+                    <hr />
                 </div>
             </li>
-            {{/objects}}
+        {{/objects}}

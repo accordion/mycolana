@@ -8,7 +8,8 @@
 interface Controller_Action_Handler {
     
     public function handle_get();
-    public function handle_post();
+    public function handle_save();
+    public function handle_delete();
     public function handle_search();
 
 }
