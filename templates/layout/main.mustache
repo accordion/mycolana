@@ -1,24 +1,13 @@
 <html>
     <head>
-    <!-- Blueprint Stylesheets -->
-    <link rel="stylesheet" href="/media/css/blueprint/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="/media/css/blueprint/print.css" type="text/css" media="print">
-    <!--[if IE]>
-	<link rel="stylesheet" href="/media/css/blueprint/ie.css" type="text/css" media="screen, projection">
-    <![endif]-->
-    <!-- Fancy Type Plugin -->
-    <link rel="stylesheet" href="/media/css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
-    <!-- Button plugin -->
-    <link rel="stylesheet" href="/media/css/blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">
-    <!-- custom style -->
-    <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen, projection">
-    <!-- jquery-ui smoothness style -->
-    <link rel="stylesheet" href="/media/css/jquery-ui.css" type="text/css" media="screen, projection">
+    {{#styles}}
+        {{&style}}
+    {{/styles}}
 
-    <script type="text/javascript" src="/media/js/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="/media/js/jquery-ui-1.8.16.custom.min.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.form.js"></script> 
-    <script type="text/javascript" src="/media/js/mycolex2.js"></script> 
+    {{#scripts}}
+        {{&script}}
+    {{/scripts}}
+
     <title>{{title}}</title>
     </head>
     <body>
