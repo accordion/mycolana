@@ -1,6 +1,12 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 return array(
+// Login
+    'Please login to access this site' => 'Bitte einloggen um die Seite zu verwenden',
+    'Username: ' => 'Benutzername: ',
+    'Password: ' => 'Passwort: ',
+    'Login' => 'Einloggen',
+    
 // Layout
     'Main menu' => 'Hauptmenü',
     

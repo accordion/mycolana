@@ -26,17 +26,24 @@ class View_List_Object extends View_Pagination_Basic
         $objects = array();
         foreach ($this->pagination->query() as $object)
         {
-        	$object_array = $object->as_array();
-                $object_array['uri'] = URL::site(NULL, TRUE) . 'detail/object/' . $object->id;
-        	$measures = array();
+            $o = $object->as_array();
+            $o['uri'] = URL::site(NULL, TRUE) . 'detail/object/' . $object->id;
+            $o['form_open'] = Form::open(URL::site(null, true) . 'detail/object/' . $object->id);
+            $o['delete'] = Form::input('delete', 'delete',  array('type' => 'submit'));
+            $o['form_close'] = Form::close();
+            
+            $measures = array();
             foreach ($object->measure->find_all() as $measure)
             {
-//            	 $measures[] = $measure->as_array();
-                $measures[] = array('value' => $measure->get_values());
+                $m = $measure->as_array();
+                $m['form_open'] = Form::open(URL::site(null, true) . 'detail/measure/' . $measure->id);
+                $m['delete'] = Form::input('delete', 'delete',  array('type' => 'submit'));
+                $m['form_close'] = Form::close();
+                $measures[] = $m;
             }
             
-            $object_array['measure'] = $measures;
-            $objects[] = $object_array;
+            $o['measure'] = $measures;
+            $objects[] = $o;
         }
         return $objects;
     }
