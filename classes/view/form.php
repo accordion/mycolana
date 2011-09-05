@@ -36,7 +36,7 @@ class View_Form extends Kostache {
         $form = array();
         $form['opening'] = Form::open($this->action, array(
             'method' => $this->method,
-            'id' => 'form_' . Request::current()->action()
+            'id' => 'form_' . Request::current()->param('model')
         ));
         
         // Elements

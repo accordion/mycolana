@@ -17,9 +17,7 @@ class Controller_Base extends Controller {
     public function before()
     {
         parent::before();
-        
-        // handle authentication
-        
+       
         $this->layout = new View_Layout_Main;
         $this->layout->header = Kostache::factory('layout/header');
         $this->layout->footer = Kostache::factory('layout/footer');
@@ -36,6 +34,11 @@ class Controller_Base extends Controller {
         return isset($_POST['search']);
     }
     
+    protected function is_delete()
+    {
+        return isset($_POST['delete']);
+    }
+    
         /**
      * Sets the view depending on whether the request came from an AJAX reqeust.
      * @param  $view 
@@ -50,5 +53,10 @@ class Controller_Base extends Controller {
         {
             $this->layout->content = $view;
         }
+    }
+    
+    protected function redirect($relative_path)
+    {
+        $this->request->redirect(URL::site(null, true) . $relative_path);
     }
 }

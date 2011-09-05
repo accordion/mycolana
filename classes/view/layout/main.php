@@ -10,9 +10,5 @@ class View_Layout_Main extends Kostache {
     public $content;
     public $footer;
     
-    public function title()
-    {
-        return __('Main menu');
-    }
-
+    public $title;
 }
