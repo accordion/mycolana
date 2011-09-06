@@ -1,18 +1,20 @@
         <p>{{title}}</p>
         {{>pagination}}
         <script type="text/javascript">
-            $(".addMeasurement").click(function() {
-                var sidebar = $("#sidebar");
-                var obid = $(this).nextAll('[name=object_id]').val();
+            $(document).ready(function() {
+                $(".addMeasurement").click(function() {
+                    var sidebar = $("#sidebar");
+                    var obid = $(this).nextAll('[name=object_id]').val();
 
-                sidebar.load('{{base_url}}detail/measure', function() {
-                    var form = $('#form_measure');
-                    addResetListener(form);
-                    form.ajaxForm({
-                        target: sidebar, 
-                        success: reloadPage
+                    sidebar.load('{{base_url}}detail/measure', function() {
+                        var form = $('#form_measure');
+                        addResetListener(form);
+                        form.ajaxForm({
+                            target: sidebar, 
+                            success: reloadPage
+                        });
+                        form.find("[name=object_id]").attr('value', obid);
                     });
-                    form.find("[name=object_id]").attr('value', obid);
                 });
             });
         </script>
