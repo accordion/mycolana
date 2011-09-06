@@ -1,3 +1,24 @@
 [submodule "system"]
 	path = system
-	url = git://github.com/kohana/core.git
+	url = http://github.com/kohana/core.git
+[submodule "modules/database"]
+	path = modules/database
+	url = http://github.com/kohana/database.git
+[submodule "modules/orm"]
+	path = modules/orm
+	url = http://github.com/kohana/orm.git
+[submodule "modules/auth"]
+	path = modules/auth
+	url = http://github.com/kohana/auth.git
+[submodule "modules/unittest"]
+	path = modules/unittest
+	url = http://github.com/kohana/unittest.git
+[submodule "modules/kohana_kadldap"]
+	path = modules/kohana_kadldap
+	url = http://github.com/sfroeth/kohana_kadldap.git
+[submodule "modules/pagination"]
+	path = modules/pagination
+	url = http://github.com/sfroeth/pagination.git
+[submodule "modules/kostache"]
+	path = modules/kostache
+	url = http://github.com/zombor/KOstache.git

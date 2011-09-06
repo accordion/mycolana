@@ -105,10 +105,10 @@ Kohana::modules(array(
 	// 'image'      => MODPATH.'image',         // Image manipulation
 	'orm'        => MODPATH.'orm',              // Object Relationship Mapping
         'unittest'   => MODPATH.'unittest',         // Unit testing
-	'userguide'  => MODPATH.'userguide',        // User guide and API documentation
+	// 'userguide'  => MODPATH.'userguide',        // User guide and API documentation
     	'pagination' => MODPATH.'pagination',       // Pagination
         'kadldap'    => MODPATH.'kohana_kadldap',   // LDAP authentication
-        'KOstache'   => MODPATH.'KOstache',         // Template system
+        'kostache'   => MODPATH.'kostache',         // Template system
 	));
 
 /**
