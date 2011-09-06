@@ -39,7 +39,7 @@ class Controller_Base extends Controller {
         return isset($_POST['delete']);
     }
     
-        /**
+    /**
      * Sets the view depending on whether the request came from an AJAX reqeust.
      * @param  $view 
      */
