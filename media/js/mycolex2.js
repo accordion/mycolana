@@ -21,19 +21,4 @@ $(document).ready(function() {
     $("#datepicker").click(function() {
         $(this).datepicker();
     });
-    
-    $(".addMeasurement").click(function() {
-        var sidebar = $("#sidebar");
-        var obid = $(this).nextAll('[name=object_id]').val();
-
-        sidebar.load('/detail/measure', function() {
-            var form = $('#form_measure');
-            addResetListener(form);
-            form.ajaxForm({
-                target: sidebar, 
-                success: reloadPage
-            });
-            form.find("[name=object_id]").attr('value', obid);
-        });
-    });
 });

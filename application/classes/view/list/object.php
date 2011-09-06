@@ -47,4 +47,10 @@ class View_List_Object extends View_Pagination_Basic
         }
         return $objects;
     }
+    
+    public function base_url()
+    {
+        return URL::site(null, true);
+    }
+    
 }
