@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Model for objects
+ * Model for person
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
