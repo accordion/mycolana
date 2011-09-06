@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class Controller_Detail extends Controller_Restricted {
+class Controller_Detail extends Controller_Base {
        
     public function action_index()
     {

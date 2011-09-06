@@ -8,7 +8,14 @@
 class Model_Object extends Model_Base {
 	
     protected $_belongs_to = array('building' => array());
-    protected $_has_many = array('measure' => array());
+    protected $_has_many = array(
+        'measures' => array(),
+        'persons' => array(
+            'model'   => 'person',
+            'through' => 'personroles',
+        ),
+    );
+    
     
     public function fields()
     {

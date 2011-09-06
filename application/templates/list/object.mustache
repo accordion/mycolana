@@ -30,15 +30,18 @@
                 <button class="addMeasurement">Add Measurement</button>
                 <input type="hidden" name="object_id" value="{{id}}" />
                 <br /><br /><br />
-                {{#measure}}
+                {{#measures}}
                     {{&form_open}}
                         <label>
-                            <strong>Measurement: {{id}}</strong>
+                            <b>Measurement: {{id}}</b>
                             (dim: {{medim}}, value: {{mevalue}})
                         </label>    
                         {{&delete}}          
                     {{&form_close}}
-                {{/measure}}
+                {{/measures}}
+                {{#persons}}        
+                    Name: {{pename}} Place: {{peplace}} <br />
+                {{/persons}}
                 <hr />
             </div>
         </li>
