@@ -1,0 +1,68 @@
+<script>
+    $(function() {
+        $("#tabs").tabs();
+    });
+</script>
+
+<div id="tabs">
+	<ul>
+            <li><a href="#overview">{{overview_label}}</a></li>
+            {{#tabs}}
+                <li><a href="#{{id}}">{{label}}</a></li>
+            {{/tabs}}
+	</ul>
+	<div id="overview">
+            <p><b>Overview of this object</b></p>
+	</div>
+	
+        {{#tabs}}
+            <script type="text/javascript">
+                function load_{{id}}() {
+                    var div = $("#{{id}}_list");
+                    var obid = $('#form_object').find('[name=id]').val();
+                    div.load('{{base_url}}list/{{id}}?object='+obid);
+                }
+                function add{{id}}Listener() {
+                    $(".add{{id}}").click(function() {
+                        var div = $("#context_form_{{id}}");
+                        var obid = $('#form_object').find('[name=id]').val();
+
+                        div.load('{{base_url}}detail/{{id}}', function() {
+                            var form = $('#form_{{id}}');
+                            form.ajaxForm({
+                                target: div,
+                                success: success_{{id}},
+                            });
+                            form.find("[name=object_id]").attr('value', obid);
+                        });
+                        
+                        function success_{{id}}() {
+                            var timeout = 2000;
+                            setTimeout('{{id}}_trigger()', timeout);
+                        }
+                    });
+                }
+                function {{id}}_trigger() {
+                    $("#context_form_{{id}}").html('<button class="add{{id}}">Add {{label}}</button>'); 
+                    add{{id}}Listener();
+                    load_{{id}}();
+                }
+                $(document).ready(function() {     
+                    add{{id}}Listener();
+                    load_{{id}}();
+                });
+            </script>
+        
+            <div id="{{id}}">
+                <div id="context_form_{{id}}">
+                    <button class="add{{id}}">Add {{label}}</button>
+                </div>
+                <hr />
+                <p>
+                    {{text}}<br />
+                    <div id="{{id}}_list"></div>
+                </p>
+            </div>
+        {{/tabs}}
+        
+</div>

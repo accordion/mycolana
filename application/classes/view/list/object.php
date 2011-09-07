@@ -8,21 +8,20 @@
 class View_List_Object extends View_Pagination_Basic
 {
     public $title = 'Objects:';
-    private $orm_model;
+    private $model;
     
-    public function __construct($orm_model) {
-        $this->orm_model = $orm_model;
+    public function __construct($model) {
+        $this->model = $model;
         parent::__construct();
     }
     
     protected function _create_pagination() 
     {
-    	return new ORMPagination(array('orm_model' => $this->orm_model));    
+    	return new ORMPagination(array('orm_model' => $this->model));    
     }
     
     public function objects()
     {
-        $route = Route::get('default');
         $objects = array();
         foreach ($this->pagination->query() as $object)
         {

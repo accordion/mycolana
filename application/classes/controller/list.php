@@ -26,7 +26,49 @@ class Controller_List extends Controller_Base {
                    $objects->and_where($column, '=', $value);
             }
         }
-        $this->layout->content = new View_List_Object($objects);
+        $this->set_content_view(new View_List_Object($objects));
+    }
+    
+    public function action_measure()
+    {
+        $measures = Model_Base::factory('measure');
+
+        if($this->request->query('search') !== null)
+        {
+            $query = SessionHandler::get_search_query();
+            foreach(array_keys($measures->list_columns()) as $column)
+            {
+                $value = Arr::get($query, $column, '');
+                if($value != '')
+                   $measures->and_where($column, '=', $value);
+            }
+        }
+        if(($object_id = $this->request->query('object')) != null)
+        {
+            $measures->and_where('object_id', '=' ,$object_id);
+        }
+        $this->set_content_view(new View_List_Measure($measures));
+    }
+    
+    public function action_location()
+    {
+        $locations = Model_Base::factory('location');
+
+        if($this->request->query('search') !== null)
+        {
+            $query = SessionHandler::get_search_query();
+            foreach(array_keys($locations->list_columns()) as $column)
+            {
+                $value = Arr::get($query, $column, '');
+                if($value != '')
+                   $locations->and_where($column, '=', $value);
+            }
+        }
+        if(($object_id = $this->request->query('object')) != null)
+        {
+            $locations->and_where('object_id', '=' ,$object_id);
+        }
+        $this->set_content_view(new View_List_Location($locations));
     }
     
 }

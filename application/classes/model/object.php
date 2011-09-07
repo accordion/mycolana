@@ -10,6 +10,7 @@ class Model_Object extends Model_Base {
     protected $_belongs_to = array('building' => array());
     protected $_has_many = array(
         'measures' => array(),
+        'locations' => array(),
         'persons' => array(
             'model'   => 'person',
             'through' => 'personroles',
