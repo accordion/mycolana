@@ -8,7 +8,7 @@
 
                     sidebar.load('{{base_url}}detail/measure', function() {
                         var form = $('#form_measure');
-                        addResetListener(form);
+                        reset_button_listener(form);
                         form.ajaxForm({
                             target: sidebar, 
                             success: reloadPage
