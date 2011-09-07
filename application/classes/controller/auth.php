@@ -10,7 +10,7 @@ class Controller_Auth extends Controller_Base {
     public function action_logout()
     {
     	Auth::instance()->logout(true, true);
-    	$this->set_view("you logged out");
+    	$this->set_content_view("you logged out");
     }
     
     public function action_login() 
@@ -45,17 +45,17 @@ class Controller_Auth extends Controller_Base {
             {
                 $message = 'You must enter both your username and password.';
             }
-            $this->set_view('<strong>' . $message . '</strong>');
+            $this->set_content_view('<strong>' . $message . '</strong>');
         }
         else // GET
         {
             if(!Auth::instance()->logged_in())
             {
-                $this->set_view(new View_Auth_Login());
+                $this->set_content_view(new View_Auth_Login());
             }
             else
             {
-                $this->set_view('you are logged in as ' . Auth::instance()->get_user());
+                $this->set_content_view('you are logged in as ' . Auth::instance()->get_user());
             }
         }
     	
