@@ -18,9 +18,9 @@
         {{#tabs}}
             <script type="text/javascript">
                 function load_{{id}}() {
-                    var div = $("#{{id}}_list");
+                    var list = $("#{{id}}_list");
                     var obid = $('#form_object').find('[name=id]').val();
-                    div.load('{{base_url}}list/{{id}}?object='+obid);
+                    list.load('{{base_url}}list/{{id}}?object='+obid);
                 }
                 function add{{id}}_button_listener() {
                     $(".add{{id}}").click(function() {
@@ -29,19 +29,31 @@
 
                         div.load('{{base_url}}detail/{{id}}', function() {
                             var form = $('#form_{{id}}');
+                            var object_id = form.find("[name=object_id]");
+                            // configure form
                             form.ajaxForm({
                                 target: div,
                                 success: success_{{id}},
                             });
-                            form.find("[name=object_id]").attr('value', obid);
+                            // check whether input for object_id is available, if not add it
+                            if(object_id.html() === null) {
+                                form.append('<input type="hidden" name="object_id" />');
+                                object_id = form.find("[name=object_id]");
+                            }
+                            // set the object_id
+                            object_id.attr('value', obid);
+                            // add a cancel button
                             form.append('<button name="cancel" class="cancel" onclick="return false">{{cancel}}</button>');
-                            reset_button_listener();
-                            cancel{{id}}_button_listener();
+                            // register event listener for the cancel button
+                            $("[name=cancel]").click(function() {
+                                {{id}}_trigger();
+                            });
+                            // add reset event listener
+                            reset_button_listener();      
                         });
                         
                         function success_{{id}}() {
-                            var timeout = 2000;
-                            setTimeout('{{id}}_trigger()', timeout);
+                            setTimeout('{{id}}_trigger()', 2000);
                         }
                     });
                 }
@@ -49,11 +61,6 @@
                     $("#context_form_{{id}}").html('<button class="add{{id}}">Add {{label}}</button>'); 
                     add{{id}}_button_listener();
                     load_{{id}}();
-                }
-                function cancel{{id}}_button_listener() {
-                    $("[name=cancel]").click(function() {
-                        {{id}}_trigger();
-                    });
                 }
                 $(document).ready(function() {     
                     add{{id}}_button_listener();

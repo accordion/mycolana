@@ -38,9 +38,12 @@ return array(
 // Context
     'Overview' => 'Übersicht',
     'Measurements' => 'Messungen',
-    'Locations' => 'Positionen',
     'Add measurement' => 'Messung hinzufügen',
+    'Locations' => 'Positionen',
     'Add location' => 'Position hinzufügen',
+    'People' => 'Personen',
+    'Add person' => 'Person hinzufügen',
+    
     
 // Misc
     'Object not found' => 'Objekt wurde nicht gefunden',

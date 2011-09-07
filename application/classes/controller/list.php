@@ -63,9 +63,11 @@ class Controller_List extends Controller_Base {
                    $elements->and_where($column, '=', $value);
             }
         }
-        if(($object_id = $this->request->query('object')) != null)
+        else if(($object_id = $this->request->query('object')) != null)
         {
-            $elements->and_where('object_id', '=' ,$object_id);
+            $object = Model_Base::factory('object', $object_id);
+            $model = $model_name . 's';
+            $elements = $object->$model;
         }
         $this->set_content_view(new View_List_Generic($elements));
     }

@@ -33,11 +33,6 @@ class View_Context_Object extends Kostache {
     public function tabs()
     {
         return array(
-//            array(
-//                'id' => 'building',
-//                'label' => __('Building'),
-//                'text' => 'Buildings are great!',
-//            ),
             array(
                 'id' => 'measure',
                 'label' => __('Measurements'),
@@ -50,11 +45,12 @@ class View_Context_Object extends Kostache {
                 'button_label' => __('Add location'),
                 'text' => 'Locate everything!',
             ),
-//            array(
-//                'id' => 'person',
-//                'label' => __('People'),
-//                'text' => '',
-//            ),
+            array(
+                'id' => 'person',
+                'label' => __('People'),
+                'button_label' => __('Add person'),
+                'text' => '',
+            ),
         );
     }
     
