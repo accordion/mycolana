@@ -14,6 +14,8 @@ return array(
     'detail' => 'Detail',
     'list' => 'Liste',
     'object' => 'Objekt',
+    'Object list' => 'Objektliste',
+    'Search/create new object' => 'Suche/erstelle neues Objekt',
     
 // Object
     'obinv' => 'Inventar',
@@ -30,7 +32,15 @@ return array(
 // Form    
     'Save' => 'Speichern',
     'Search' => 'Suchen',
-    "Reset" => 'Leeren',
+    'Reset' => 'Leeren',
+    'Cancel' => 'Abbrechen',
+   
+// Context
+    'Overview' => 'Übersicht',
+    'Measurements' => 'Messungen',
+    'Locations' => 'Positionen',
+    'Add measurement' => 'Messung hinzufügen',
+    'Add location' => 'Position hinzufügen',
     
 // Misc
     'Object not found' => 'Objekt wurde nicht gefunden',
