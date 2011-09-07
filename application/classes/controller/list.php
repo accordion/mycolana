@@ -31,44 +31,43 @@ class Controller_List extends Controller_Base {
     
     public function action_measure()
     {
-        $measures = Model_Base::factory('measure');
-
-        if($this->request->query('search') !== null)
-        {
-            $query = SessionHandler::get_search_query();
-            foreach(array_keys($measures->list_columns()) as $column)
-            {
-                $value = Arr::get($query, $column, '');
-                if($value != '')
-                   $measures->and_where($column, '=', $value);
-            }
-        }
-        if(($object_id = $this->request->query('object')) != null)
-        {
-            $measures->and_where('object_id', '=' ,$object_id);
-        }
-        $this->set_content_view(new View_List_Measure($measures));
+        $this->generic_action('measure');
     }
     
     public function action_location()
     {
-        $locations = Model_Base::factory('location');
+        $this->generic_action('location');
+    }
+    
+    public function action_person()
+    {
+        $this->generic_action('person');
+    }
+    
+    public function action_building()
+    {
+        $this->generic_action('building');
+    }
+    
+    private function generic_action($model_name)
+    {
+        $elements = Model_Base::factory($model_name);
 
         if($this->request->query('search') !== null)
         {
             $query = SessionHandler::get_search_query();
-            foreach(array_keys($locations->list_columns()) as $column)
+            foreach(array_keys($elements->list_columns()) as $column)
             {
                 $value = Arr::get($query, $column, '');
                 if($value != '')
-                   $locations->and_where($column, '=', $value);
+                   $elements->and_where($column, '=', $value);
             }
         }
         if(($object_id = $this->request->query('object')) != null)
         {
-            $locations->and_where('object_id', '=' ,$object_id);
+            $elements->and_where('object_id', '=' ,$object_id);
         }
-        $this->set_content_view(new View_List_Location($locations));
+        $this->set_content_view(new View_List_Generic($elements));
     }
     
 }
