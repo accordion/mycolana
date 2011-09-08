@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_List_Generic extends Kostache {
+class View_List_Generic extends View_Base {
     
     private $model;
     

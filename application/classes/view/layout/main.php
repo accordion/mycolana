@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_Layout_Main extends Kostache {
+class View_Layout_Main extends View_Base {
     public $header;
     public $content;
     public $context;

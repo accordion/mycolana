@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_Form extends Kostache {
+class View_Form extends View_Base {
     
     private $action;
     private $model;

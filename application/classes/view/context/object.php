@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_Context_Object extends Kostache {
+class View_Context_Object extends View_Base {
     
     private $model;
     
@@ -18,11 +18,6 @@ class View_Context_Object extends Kostache {
     public function overview_label()
     {
         return __('Overview');
-    }
-    
-    public function base_url()
-    {
-        return URL::site(null, true);
     }
     
     public function cancel()

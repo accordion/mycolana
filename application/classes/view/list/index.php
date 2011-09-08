@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_List_Index extends Kostache {
+class View_List_Index extends View_Base {
     
     public function links()
     {
@@ -32,9 +32,5 @@ class View_List_Index extends Kostache {
             ),
         );
     }
-    
-    public function base_url()
-    {
-        return URL::site(null, true);
-    }
+
 }
