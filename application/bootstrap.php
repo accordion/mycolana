@@ -123,6 +123,6 @@ Route::set('detail', 'detail(/<model>(/<id>))')
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
-                'controller' => 'list',
+                'controller' => 'detail',
 		'action'     => 'index',
 	));
