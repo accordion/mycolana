@@ -9,7 +9,7 @@ class Controller_List extends Controller_Base {
     
     public function action_index()
     {
-        $this->layout->content = "Hallo";
+           $this->set_content_view(new View_List_Index);
     }
     
     public function action_object()
