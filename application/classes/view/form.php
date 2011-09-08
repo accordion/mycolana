@@ -88,6 +88,8 @@ class View_Form extends View_Base {
             default:
                 if(isset($definitions['maxlength'])) 
                     $options['maxlength'] = $definitions['maxlength'];
+                if($column === 'id') 
+                    $options['readonly'] = 'true';
                 return Form::input($column, $this->model->$column, $options);
         }   
     }
