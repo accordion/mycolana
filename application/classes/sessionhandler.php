@@ -7,16 +7,19 @@
  */
 class SessionHandler {
 
-    public static function set_search_query($post)
+    public static function set_search_query($model_name, $post)
     {
         $session = Session::instance();
         unset($post['search']);
-        $session->set('search', $post);
+        $queries = $session->get('search');
+        $queries[$model_name] = $post;
+        $session->set('search', $queries);
     }
     
-    public static function get_search_query()
+    public static function get_search_query($model_name)
     {
         $session = Session::instance();
-        return $session->get('search');
+        $queries = $session->get('search');
+        return isset($queries[$model_name]) ? $queries[$model_name] : array();
     }
 }

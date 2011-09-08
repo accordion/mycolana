@@ -18,7 +18,7 @@ class Controller_List extends Controller_Base {
 
         if($this->request->query('search') !== null)
         {
-            $query = SessionHandler::get_search_query();
+            $query = SessionHandler::get_search_query('object');
             foreach(array_keys($objects->list_columns()) as $column)
             {
                 $value = Arr::get($query, $column, '');
@@ -55,7 +55,7 @@ class Controller_List extends Controller_Base {
 
         if($this->request->query('search') !== null)
         {
-            $query = SessionHandler::get_search_query();
+            $query = SessionHandler::get_search_query($model_name);
             foreach(array_keys($elements->list_columns()) as $column)
             {
                 $value = Arr::get($query, $column, '');

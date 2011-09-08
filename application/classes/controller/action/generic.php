@@ -65,7 +65,7 @@ class Controller_Action_Generic implements Controller_Action_Handler {
 
     public function handle_search() 
     {
-         SessionHandler::set_search_query($_POST);
+         SessionHandler::set_search_query($this->model_name, $_POST);
          $this->controller->request->redirect(URL::site(null, true) . 'list/' 
                  . $this->model_name . '?search');
     }
