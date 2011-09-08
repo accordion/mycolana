@@ -7,5 +7,5 @@
  */
 class Model_Building extends Model_Base {
     
-	protected $_has_many = array('objects' => array());
+    protected $_has_many = array('objects' => array());
 }

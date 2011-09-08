@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_Form extends Kostache {
+class View_Form extends View_Base {
     
     private $action;
     private $model;
@@ -34,7 +34,7 @@ class View_Form extends Kostache {
     public function form()
     {
         $form = array();
-        $form['opening'] = Form::open($this->action, array(
+        $form['open'] = Form::open($this->action, array(
             'method' => $this->method,
             'id' => 'form_' . Request::current()->param('model')
         ));
@@ -54,7 +54,7 @@ class View_Form extends Kostache {
         $form['elements'] = $elements;
         
         // Closing
-        $form['closing'] = array(
+        $form['close'] = array(
             array('element' => Form::button('submit', __('Save'), array('type' => 'submit'))),
             array('element' => Form::button('search', __('Search'), array('type' => 'submit'))),
             array('element' => Form::button('reset', __('Reset'), array(
@@ -62,8 +62,7 @@ class View_Form extends Kostache {
                 'onclick' => 'return false'
             ))),
             array('element' => Form::close())
-        );
-        
+        );       
         return $form;
     }
     
@@ -89,6 +88,8 @@ class View_Form extends Kostache {
             default:
                 if(isset($definitions['maxlength'])) 
                     $options['maxlength'] = $definitions['maxlength'];
+                if($column === 'id') 
+                    $options['readonly'] = 'true';
                 return Form::input($column, $this->model->$column, $options);
         }   
     }

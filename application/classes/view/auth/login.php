@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_Auth_Login extends Kostache {
+class View_Auth_Login extends View_Base {
     
     public function title()
     {

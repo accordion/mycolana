@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_Layout_Header extends Kostache {
+class View_Layout_Header extends View_Base {
    
     public function path()
     {
@@ -36,15 +36,15 @@ class View_Layout_Header extends Kostache {
     {
         return array(
             array(
-                'link' => URL::site(null, true) . 'detail/object',
+                'uri' => 'detail/object',
                 'label' => __('Search/create new object')
             ),
             array(
-                'link' => URL::site(null, true) . 'list/object',
+                'uri' => 'list/object',
                 'label' => __('Object list')
             ),
             array(
-                'link' => URL::site(null, true) . 'auth/login',
+                'uri' => 'auth/login',
                 'label' => __('Login')
             ),
         );

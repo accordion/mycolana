@@ -3,12 +3,12 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $(".addMeasurement").click(function() {
-                    var sidebar = $("#sidebar");
+                    var sidebar = $("#context");
                     var obid = $(this).nextAll('[name=object_id]').val();
 
                     sidebar.load('{{base_url}}detail/measure', function() {
                         var form = $('#form_measure');
-                        addResetListener(form);
+                        reset_button_listener(form);
                         form.ajaxForm({
                             target: sidebar, 
                             success: reloadPage
@@ -30,15 +30,18 @@
                 <button class="addMeasurement">Add Measurement</button>
                 <input type="hidden" name="object_id" value="{{id}}" />
                 <br /><br /><br />
-                {{#measure}}
+                {{#measures}}
                     {{&form_open}}
                         <label>
-                            <strong>Measurement: {{id}}</strong>
+                            <b>Measurement: {{id}}</b>
                             (dim: {{medim}}, value: {{mevalue}})
                         </label>    
                         {{&delete}}          
                     {{&form_close}}
-                {{/measure}}
+                {{/measures}}
+                {{#persons}}        
+                    Name: {{pename}} Place: {{peplace}} <br />
+                {{/persons}}
                 <hr />
             </div>
         </li>
