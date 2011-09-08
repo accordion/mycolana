@@ -40,7 +40,13 @@ class Controller_Action_Generic implements Controller_Action_Handler {
         {
             $this->model->values($_POST);
             $id = $this->model->save();
-            $this->controller->set_content_view(__(ucfirst($this->model_name) . ' added'));
+            $action = '';
+            if($_POST['id'] == null)
+                $action = __('added');
+            else
+                $action = __('updated');
+            $this->controller->set_content_view(__(ucfirst($this->model_name) 
+                    . ' ' . $action));
         }
         catch(ORM_Validation_Exception $e)
         {

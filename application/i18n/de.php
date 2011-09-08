@@ -16,6 +16,20 @@ return array(
     'object' => 'Objekt',
     'Object list' => 'Objektliste',
     'Search/create new object' => 'Suche/erstelle neues Objekt',
+
+// Names of the models
+    'building' => 'Gebäude',
+    'location' => 'Position',
+    'measure' => 'Messung',
+    'object' => 'Objekt',
+    'person' => 'Person',
+    
+// Labels for models
+    'Buildings' => 'Gebäude',
+    'Locations' => 'Positionen',
+    'Measurements' => 'Messungen',
+    'Objects' => 'Objekte',
+    'People' => 'Personen',
     
 // Object
     'obinv' => 'Inventar',
@@ -37,16 +51,14 @@ return array(
    
 // Context
     'Overview' => 'Übersicht',
-    'Measurements' => 'Messungen',
     'Add measurement' => 'Messung hinzufügen',
-    'Locations' => 'Positionen',
     'Add location' => 'Position hinzufügen',
-    'People' => 'Personen',
     'Add person' => 'Person hinzufügen',
-    
-    
+      
 // Misc
     'Object not found' => 'Objekt wurde nicht gefunden',
     'Measure not found' => 'Messung nicht gefunden',
-    'Measurement added' => 'Messung wurde hinzugefügt',
+    'added' => 'hinzugefügt',
+    'updated' => 'aktualisiert',
+    'Search' => 'Suche',
 );

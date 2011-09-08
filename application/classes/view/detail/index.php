@@ -9,6 +9,6 @@ class View_Detail_Index extends View_List_Index {
     
     public function title()
     {
-        return __('Search for:');
+        return __('Search');
     }
 }
