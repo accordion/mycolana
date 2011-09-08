@@ -80,7 +80,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  caching     enable or disable internal caching                 FALSE
  */
 Kohana::init(array(
-    'base_url'   => 'http://localhost/',
+    'base_url'   => 'http://localhost/mycolana',
     'index_file' => false,
 ));
 
@@ -105,10 +105,10 @@ Kohana::modules(array(
 	// 'image'      => MODPATH.'image',         // Image manipulation
 	'orm'        => MODPATH.'orm',              // Object Relationship Mapping
         'unittest'   => MODPATH.'unittest',         // Unit testing
-	'userguide'  => MODPATH.'userguide',        // User guide and API documentation
+	// 'userguide'  => MODPATH.'userguide',        // User guide and API documentation
     	'pagination' => MODPATH.'pagination',       // Pagination
         'kadldap'    => MODPATH.'kohana_kadldap',   // LDAP authentication
-        'KOstache'   => MODPATH.'KOstache',         // Template system
+        'kostache'   => MODPATH.'kostache',         // Template system
 	));
 
 /**
@@ -123,6 +123,6 @@ Route::set('detail', 'detail(/<model>(/<id>))')
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
-                'controller' => 'list',
+                'controller' => 'detail',
 		'action'     => 'index',
 	));

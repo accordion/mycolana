@@ -5,9 +5,10 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class View_Layout_Main extends Kostache {
+class View_Layout_Main extends View_Base {
     public $header;
     public $content;
+    public $context;
     public $footer;    
     public $title;
        
@@ -30,7 +31,7 @@ class View_Layout_Main extends Kostache {
             // <!-- Blueprint Stylesheets -->
             array('style' => HTML::style('media/css/blueprint/screen.css', $screen)),
             array('style' => HTML::style('media/css/blueprint/print.css', $print)),
-            array('style' => '<!--[if IE]-- >'),
+            array('style' => '<!--[if IE]-->'),
             array('style' => HTML::style('media/css/blueprint/ie.css', $screen)),
             array('style' => '<![endif]-->'),
             // <!-- Fancy Type Plugin -->

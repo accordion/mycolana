@@ -8,21 +8,20 @@
 class View_List_Object extends View_Pagination_Basic
 {
     public $title = 'Objects:';
-    private $orm_model;
+    private $model;
     
-    public function __construct($orm_model) {
-        $this->orm_model = $orm_model;
+    public function __construct($model) {
+        $this->model = $model;
         parent::__construct();
     }
     
     protected function _create_pagination() 
     {
-    	return new ORMPagination(array('orm_model' => $this->orm_model));    
+    	return new ORMPagination(array('orm_model' => $this->model));    
     }
     
     public function objects()
     {
-        $route = Route::get('default');
         $objects = array();
         foreach ($this->pagination->query() as $object)
         {
@@ -33,24 +32,32 @@ class View_List_Object extends View_Pagination_Basic
             $o['form_close'] = Form::close();
             
             $measures = array();
-            foreach ($object->measure->find_all() as $measure)
+            foreach ($object->measures->find_all() as $measure)
             {
                 $m = $measure->as_array();
                 $m['form_open'] = Form::open(URL::site(null, true) . 'detail/measure/' . $measure->id);
                 $m['delete'] = Form::input('delete', 'delete',  array('type' => 'submit'));
                 $m['form_close'] = Form::close();
                 $measures[] = $m;
-            }
+            }            
+            $o['measures'] = $measures;
             
-            $o['measure'] = $measures;
+            $persons = array();
+            foreach ($object->persons->find_all() as $person)
+            {
+                $m = $person->as_array();
+                $m['form_open'] = Form::open(URL::site(null, true) . 'detail/person/' . $person->id);
+                $m['delete'] = Form::input('delete', 'delete',  array('type' => 'submit'));
+                $m['form_close'] = Form::close();
+                $persons[] = $m;
+            }            
+            $o['persons'] = $persons;
+            
+            
             $objects[] = $o;
         }
         return $objects;
     }
-    
-    public function base_url()
-    {
-        return URL::site(null, true);
-    }
+
     
 }

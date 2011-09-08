@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class Controller_Detail extends Controller_Restricted {
+class Controller_Detail extends Controller_Base {
        
     public function action_index()
     {
@@ -16,39 +16,47 @@ class Controller_Detail extends Controller_Restricted {
 //              'controller' => 'detail',
 //		'action'     => 'index',
 //          ));
-        
-        $handler = null;
-        $class = 'Controller_Action_' . ucfirst($this->request->param('model'));
-        if(class_exists($class)) {
-            $handler = new $class($this);
-        }
-        else 
+        $model_name = $this->request->param('model');
+        if($model_name != null)
         {
-            $handler = new Controller_Action_Generic($this);  
+            $handler = null;
+            $class = 'Controller_Action_' . ucfirst($model_name);
+            if(class_exists($class)) {
+                $handler = new $class($this);
+            }
+            else 
+            {
+                $handler = new Controller_Action_Generic($this);  
+            }
+
+            switch($this->request->method())
+            {
+                case HTTP_Request::GET:
+                    $handler->handle_get();
+                    break;
+                case HTTP_Request::POST:
+                    if($this->is_search())
+                    {
+                        $handler->handle_search();
+                    } 
+                    elseif($this->is_delete())
+                    {
+                        $handler->handle_delete();
+                    }
+                    else
+                    {
+                        $handler->handle_save();
+                    }
+                    break;
+                default:
+                    throw new HTTP_Exception_404;          
+            }
         }
-        
-        switch($this->request->method())
+        else // index action
         {
-            case HTTP_Request::GET:
-                $handler->handle_get();
-                break;
-            case HTTP_Request::POST:
-                if($this->is_search())
-                {
-                    $handler->handle_search();
-                } 
-                elseif($this->is_delete())
-                {
-                    $handler->handle_delete();
-                }
-                else
-                {
-                    $handler->handle_save();
-                }
-                break;
-            default:
-                throw new HTTP_Exception_404;          
+           $this->set_content_view(new View_Detail_Index);
         }
+
     }
         
 }

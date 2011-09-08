@@ -20,7 +20,7 @@ class Model_Measure extends Model_Base {
             'object_id' => array(
                 'type' => 'input',
                 'options' => array(
-                    'disabled' => 'true'
+                    'readonly' => 'true'
                 )
             )
         );

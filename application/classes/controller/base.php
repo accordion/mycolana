@@ -43,7 +43,7 @@ class Controller_Base extends Controller {
      * Sets the view depending on whether the request came from an AJAX reqeust.
      * @param  $view 
      */
-    public function set_view($view)
+    public function set_content_view($view)
     {
         if($this->request->is_ajax()) 
         {
