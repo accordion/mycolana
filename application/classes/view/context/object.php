@@ -29,19 +29,19 @@ class View_Context_Object extends View_Base {
     {
         return array(
             array(
-                'id' => 'measure',
+                'model' => 'measure',
                 'label' => __('Measurements'),
                 'button_label' => __('Add measurement'),
                 'text' => 'Measure everything!',
             ),
             array(
-                'id' => 'location',
+                'model' => 'location',
                 'label' => __('Locations'),
                 'button_label' => __('Add location'),
                 'text' => 'Locate everything!',
             ),
             array(
-                'id' => 'person',
+                'model' => 'person',
                 'label' => __('People'),
                 'button_label' => __('Add person'),
                 'text' => '',
