@@ -57,10 +57,6 @@ class View_Form extends View_Base {
         $form['close'] = array(
             array('element' => Form::button('submit', __('Save'), array('type' => 'submit'))),
             array('element' => Form::button('search', __('Search'), array('type' => 'submit'))),
-            array('element' => Form::button('reset', __('Reset'), array(
-                'id' => 'reset',
-                'onclick' => 'return false'
-            ))),
             array('element' => Form::close())
         );       
         return $form;

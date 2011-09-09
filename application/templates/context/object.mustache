@@ -42,10 +42,11 @@
                 }
                 // set the object_id
                 object_id.attr('value', obid);
+                // add reset button
+//                reset_button_listener();
+                add_reset_button(form, "{{reset}}");
                 // add a cancel button
                 add_cancel_button(form, model, label);
-                // add reset event listener
-                reset_button_listener();      
             });
             
             function success_action() {

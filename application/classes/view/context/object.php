@@ -20,11 +20,6 @@ class View_Context_Object extends View_Base {
         return __('Overview');
     }
     
-    public function cancel()
-    {
-        return __('Cancel');
-    }
-    
     public function tabs()
     {
         return array(

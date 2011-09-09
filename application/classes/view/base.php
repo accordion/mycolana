@@ -11,4 +11,14 @@ abstract class View_Base extends Kostache {
     {
         return URL::site(null, true);
     }
+    
+    public final function reset()
+    {
+        return __('Reset');
+    }
+    
+    public final function cancel()
+    {
+        return __('Cancel');
+    }
 }
