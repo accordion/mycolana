@@ -34,7 +34,7 @@
                 var div = $("#context_form_"+model);
                 var obid = $('#form_object').find('[name=id]').val();
 
-                div.load("{{base_url}}detail/"+model, function() {
+                div.load("{{base_url}}detail/"+model+"?save", function() {
                     var form = $("#form_"+model);
                     var object_id = form.find("[name=object_id]");
                     // configure form
