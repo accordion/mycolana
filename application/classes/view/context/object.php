@@ -26,19 +26,22 @@ class View_Context_Object extends View_Base {
             array(
                 'model' => 'measure',
                 'label' => __('Measurements'),
-                'button_label' => __('Add measurement'),
+                'button_label_add' => __('Add measurement'),
+                'button_label_search' => __('Search measurements'),
                 'text' => 'Measure everything!',
             ),
             array(
                 'model' => 'location',
                 'label' => __('Locations'),
-                'button_label' => __('Add location'),
+                'button_label_add' => __('Add location'),
+                'button_label_search' => __('Search locations'),
                 'text' => 'Locate everything!',
             ),
             array(
                 'model' => 'person',
                 'label' => __('People'),
-                'button_label' => __('Add person'),
+                'button_label_add' => __('Add person'),
+                'button_label_search' => __('Search people'),
                 'text' => '',
             ),
         );

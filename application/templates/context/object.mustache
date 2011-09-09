@@ -1,61 +1,70 @@
-<script>
+<script>   
+    function Tab(model, label, button_label_add, button_label_search) {        
+        add_button_listener();
+        load_list(model);    
+    
+        function show_buttons() {
+            $("#context_form_"+model).html(
+                '<button class="add'+model+'">'+button_label_add+'</button>' + 
+                '<button class="search'+model+'">'+button_label_search+'</button>'
+            );
+        }
+        
+        function load_list() {
+            var list = $("#"+model+"_list");
+            var obid = $('#form_object').find('[name=id]').val();
+            list.load("{{base_url}}list/"+model+"?object="+obid);
+        }
+        
+        function reload() {
+            show_buttons();
+            add_button_listener();
+            load_list();
+        }
+
+        function add_cancel_button(form) {
+            form.append('<button name="cancel" class="cancel" onclick="return false">{{cancel}}</button>');
+            $("[name=cancel]").click(function() {
+                reload();
+            });
+        }
+
+        function add_button_listener() {
+            $(".add"+model).click(function() {
+                var div = $("#context_form_"+model);
+                var obid = $('#form_object').find('[name=id]').val();
+
+                div.load("{{base_url}}detail/"+model, function() {
+                    var form = $("#form_"+model);
+                    var object_id = form.find("[name=object_id]");
+                    // configure form
+                    form.ajaxForm({
+                        target: div,
+                        success: success_action
+                    });
+                    // check whether input for object_id is available, if not add it
+                    if(object_id.html() === null) {
+                        form.append('<input type="hidden" name="object_id" />');
+                        object_id = form.find("[name=object_id]");
+                    }
+                    // set the object_id
+                    object_id.attr('value', obid);
+                    // add reset button
+//                    add_reset_button(form, "{{reset}}");
+                    // add a cancel button
+                    add_cancel_button(form);
+                });
+
+                function success_action() {
+                    setTimeout(function() { reload(model, label) }, 2000);
+                }
+            });
+        }
+    };
+    
     $(function() {
         $("#tabs").tabs();
     });
-    
-    function load_list(model) {
-        var list = $("#"+model+"_list");
-        var obid = $('#form_object').find('[name=id]').val();
-        list.load("{{base_url}}list/"+model+"?object="+obid);
-    }
-    
-    function success_trigger(model, label) {
-        $("#context_form_"+model).html('<button class="add'+model+'">Add '+label+'</button>'); 
-        add_button_listener(model, label);
-        load_list(model);
-    }
-    
-    function add_cancel_button(form, model, label) {
-        form.append('<button name="cancel" class="cancel" onclick="return false">{{cancel}}</button>');
-        $("[name=cancel]").click(function() {
-            success_trigger(model, label);
-        });
-    }
-    
-    function add_button_listener(model, label) {
-        $(".add"+model).click(function() {
-            var div = $("#context_form_"+model);
-            var obid = $('#form_object').find('[name=id]').val();
-
-            div.load("{{base_url}}detail/"+model, function() {
-                var form = $("#form_"+model);
-                var object_id = form.find("[name=object_id]");
-                // configure form
-                form.ajaxForm({
-                    target: div,
-                    success: success_action
-                });
-                // check whether input for object_id is available, if not add it
-                if(object_id.html() === null) {
-                    form.append('<input type="hidden" name="object_id" />');
-                    object_id = form.find("[name=object_id]");
-                }
-                // set the object_id
-                object_id.attr('value', obid);
-                // add reset button
-//                reset_button_listener();
-                add_reset_button(form, "{{reset}}");
-                // add a cancel button
-                add_cancel_button(form, model, label);
-            });
-            
-            function success_action() {
-                setTimeout(function() { success_trigger(model, label) }, 2000);
-            }
-        });
-    }
-    
-
 </script>
 
 <div id="tabs">
@@ -71,15 +80,16 @@
 	
         {{#tabs}}
             <script type="text/javascript">
-                $(document).ready(function() {     
-                    add_button_listener("{{model}}", "{{label}}");
-                    load_list("{{model}}");    
+                $(document).ready(function() {
+                    Tab("{{model}}", "{{label}}", 
+                        "{{button_label_add}}", "{{button_label_search}}")
                 });
             </script>
         
             <div id="{{model}}">
                 <div id="context_form_{{model}}">
-                    <button class="add{{model}}">{{button_label}}</button>
+                    <button class="add{{model}}">{{button_label_add}}</button>
+                    <button class="search{{model}}">{{button_label_search}}</button>
                 </div>
                 <br />
                 <hr />

@@ -19,14 +19,14 @@ return array(
 
 // Names of the models
     'building' => 'Gebäude',
-    'location' => 'Position',
+    'location' => 'Ort',
     'measure' => 'Messung',
     'object' => 'Objekt',
     'person' => 'Person',
     
 // Labels for models
     'Buildings' => 'Gebäude',
-    'Locations' => 'Positionen',
+    'Locations' => 'Orte',
     'Measurements' => 'Messungen',
     'Objects' => 'Objekte',
     'People' => 'Personen',
@@ -52,7 +52,7 @@ return array(
 // Context
     'Overview' => 'Übersicht',
     'Add measurement' => 'Messung hinzufügen',
-    'Add location' => 'Position hinzufügen',
+    'Add location' => 'Ort hinzufügen',
     'Add person' => 'Person hinzufügen',
       
 // Misc
