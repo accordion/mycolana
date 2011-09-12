@@ -1,7 +1,13 @@
 <script>   
-    function Tab(model, label, button_label_add, button_label_search) {        
-        add_button_listener();
-        load_list(model);    
+    function Tab(model, label, button_label_add, button_label_search) {           
+        construct();
+        
+        function construct() {
+            show_buttons();
+            add_button_listener();
+            search_button_listener();
+            load_list();
+        }
     
         function show_buttons() {
             $("#context_form_"+model).html(
@@ -15,17 +21,33 @@
             var obid = $('#form_object').find('[name=id]').val();
             list.load("{{base_url}}list/"+model+"?object="+obid);
         }
-        
-        function reload() {
-            show_buttons();
-            add_button_listener();
-            load_list();
-        }
 
-        function add_cancel_button(form) {
-            form.append('<button name="cancel" class="cancel" onclick="return false">{{cancel}}</button>');
+        function add_cancel_button(selector) {
+            selector.append('<button name="cancel" class="cancel" onclick="return false">{{cancel}}</button>');
             $("[name=cancel]").click(function() {
-                reload();
+                construct();
+            });
+        }
+        
+        function search_button_listener() {
+            $(".search"+model).click(function() {
+                var div = $("#context_form_"+model);
+                
+                div.load("{{base_url}}detail/"+model+"?search", function() {
+                    var form = $("#form_"+model);
+                    // configure form
+                    form.ajaxForm({
+                        target: div,
+                        success: success_action
+                    });  
+                    // add a cancel button
+                    add_cancel_button(form);
+                });
+                
+                function success_action() {
+                    var div = $("#context_form_"+model);
+                    add_cancel_button(div);
+                }
             });
         }
 
@@ -56,7 +78,7 @@
                 });
 
                 function success_action() {
-                    setTimeout(function() { reload(model, label) }, 2000);
+                    setTimeout(function() { construct(model, label) }, 2000);
                 }
             });
         }
@@ -87,10 +109,7 @@
             </script>
         
             <div id="{{model}}">
-                <div id="context_form_{{model}}">
-                    <button class="add{{model}}">{{button_label_add}}</button>
-                    <button class="search{{model}}">{{button_label_search}}</button>
-                </div>
+                <div id="context_form_{{model}}"></div>
                 <br />
                 <hr />
                 <p>
