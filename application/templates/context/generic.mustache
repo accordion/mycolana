@@ -18,8 +18,8 @@
         
         function load_list() {
             var list = $("#"+model+"_list");
-            var obid = $('#form_object').find('[name=id]').val();
-            list.load("{{base_url}}list/"+model+"?object="+obid);
+            var obid = $('#form_{{parent_model}}').find('[name=id]').val();
+            list.load("{{base_url}}list/"+model+"?{{parent_model}}="+obid);
         }
 
         function add_cancel_button(selector) {
@@ -54,23 +54,23 @@
         function add_button_listener() {
             $(".add"+model).click(function() {
                 var div = $("#context_form_"+model);
-                var obid = $('#form_object').find('[name=id]').val();
+                var parent_id = $('#form_{{parent_model}}').find('[name=id]').val();
 
                 div.load("{{base_url}}detail/"+model+"?save", function() {
                     var form = $("#form_"+model);
-                    var object_id = form.find("[name=object_id]");
+                    var model_id = form.find("[name={{parent_model}}_id]");
                     // configure form
                     form.ajaxForm({
                         target: div,
                         success: success_action
                     });
-                    // check whether input for object_id is available, if not add it
-                    if(object_id.html() === null) {
-                        form.append('<input type="hidden" name="object_id" />');
-                        object_id = form.find("[name=object_id]");
+                    // check whether input for {{parent_model}}_id is available, if not add it
+                    if(model_id.html() === null) {
+                        form.append('<input type="hidden" name="{{parent_model}}_id" />');
+                        model_id = form.find("[name={{parent_model}}_id]");
                     }
-                    // set the object_id
-                    object_id.attr('value', obid);
+                    // set the {{parent_model}}_id
+                    model_id.attr('value', parent_id);
                     // add reset button
 //                    add_reset_button(form, "{{reset}}");
                     // add a cancel button
@@ -97,7 +97,7 @@
             {{/tabs}}
 	</ul>
 	<div id="overview">
-            <p><b>Overview of this object</b></p>
+            <p><b>Overview of this {{parent_model}}</b></p>
 	</div>
 	
         {{#tabs}}
@@ -113,7 +113,6 @@
                 <br />
                 <hr />
                 <p>
-                    {{text}}<br />
                     <div id="{{model}}_list"></div>
                 </p>
             </div>

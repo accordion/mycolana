@@ -9,7 +9,8 @@ class View_List_Generic extends View_Base {
     
     private $model;
     
-    public function __construct($model) {
+    public function __construct($model) 
+    {
         $this->model = $model;
         parent::__construct();
     }

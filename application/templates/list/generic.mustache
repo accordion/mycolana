@@ -19,6 +19,11 @@
             event.preventDefault();
             load_form(target, this.href);
         });
+        
+        $(".remove_button").click(function(event) {
+            event.preventDefault();
+            target.post();
+        });
     });
 </script>
 

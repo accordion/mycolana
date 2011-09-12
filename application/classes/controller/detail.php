@@ -9,13 +9,6 @@ class Controller_Detail extends Controller_Base {
        
     public function action_index()
     {
-//        Works with the following route from bootstrap.php:
-//        
-//        Route::set('detail', 'detail(/<model>(/<id>))')
-//          ->defaults(array(
-//              'controller' => 'detail',
-//		'action'     => 'index',
-//          ));
         $model_name = $this->request->param('model');
         if($model_name != null)
         {
@@ -56,7 +49,6 @@ class Controller_Detail extends Controller_Base {
         {
            $this->set_content_view(new View_Detail_Index);
         }
-
     }
         
 }
