@@ -27,7 +27,7 @@ return array(
 // Labels for models
     'Buildings' => 'Gebäude',
     'Locations' => 'Orte',
-    'Measurements' => 'Messungen',
+    'Measures' => 'Messungen',
     'Objects' => 'Objekte',
     'People' => 'Personen',
     
@@ -51,9 +51,12 @@ return array(
    
 // Context
     'Overview' => 'Übersicht',
-    'Add measurement' => 'Messung hinzufügen',
+    'Add measure' => 'Messung hinzufügen',
+    'Search measures' => 'Messungen suchen',
     'Add location' => 'Ort hinzufügen',
+    'Search locations' => 'Orte suchen',
     'Add person' => 'Person hinzufügen',
+    'Search people' => 'Personen suchen',
       
 // Misc
     'Object not found' => 'Objekt wurde nicht gefunden',

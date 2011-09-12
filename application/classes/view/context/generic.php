@@ -37,9 +37,9 @@ class View_Context_Generic extends View_Base {
             $model = $definition['model'];
             $tabs[] = array(
                 'model' => $model,
-                'label' => ucfirst(Inflector::plural($model)),
-                'button_label_add' => __('Add ' . ucfirst($model)),
-                'button_label_search' => __('Search ' . Inflector::plural(ucfirst($model))),
+                'label' => __(ucfirst(Inflector::plural($model))),
+                'button_label_add' => __('Add ' . $model),
+                'button_label_search' => __('Search ' . Inflector::plural($model)),
             );
         }
         return $tabs;
