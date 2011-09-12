@@ -41,7 +41,7 @@ class View_List_Generic extends View_Base {
     
     public function model()
     {
-        return Request::current()->action();
+        return Request::current()->param('model');
     }
     
 }
