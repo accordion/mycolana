@@ -20,13 +20,28 @@ class View_List_Generic extends View_Base {
         foreach($this->model->find_all() as $element) 
         {
             $html = '';
+            $id = 0;
             foreach($element->as_array() as $column => $value) 
             {
+                if($column == 'id') $id = $value;
                 $html .= '<b>' . $column . ': </b>' . $value . ' ';
             }
-            $elements[] = array('element' => $html);
+            $elements[] = array(
+                'id' => $id,
+                'element' => $html,
+            );
         }
         return $elements;
+    }
+    
+    public function uri()
+    {
+        return $this->base_url() . 'detail/' . $this->model();
+    }
+    
+    public function model()
+    {
+        return Request::current()->action();
     }
     
 }
