@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class Controller_Base extends Controller { 
+abstract class Controller_Base extends Controller { 
     
     /**
      * Layout of the site

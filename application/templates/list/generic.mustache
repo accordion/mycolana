@@ -2,11 +2,7 @@
     $(document).ready(function() {        
         $(".remove_{{model}}").click(function(event) {
             event.preventDefault();
-            $.post(this.href, { 'delete': 'true' },
-                function(message) {
-                    alert(message);
-                }
-            );
+            $.post(this.href, { 'delete': 'true' });
         });
     });
 </script>

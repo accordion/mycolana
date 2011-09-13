@@ -72,8 +72,9 @@ class Controller_Action_Generic implements Controller_Action_Handler {
                 $action = __('added');
             else
                 $action = __('updated');
-            $this->controller->set_content_view(__(ucfirst($this->model_name) 
-                    . ' ' . $action));
+            $message = __(ucfirst($this->model_name) . ' ' . $action);
+            Messages::put('info', $message);
+            $this->controller->set_content_view($message);
         }
         catch(ORM_Validation_Exception $e)
         {
@@ -89,11 +90,15 @@ class Controller_Action_Generic implements Controller_Action_Handler {
             if($this->model->loaded())
             {
                 $this->model->delete();
-                $this->controller->set_content_view(__(ucfirst($this->model_name) . ' deleted'));
+                $message = __(ucfirst($this->model_name) . ' deleted');
+                Messages::put('info', $message);
+                $this->controller->set_content_view($message);
             }
             else
             {
-                $this->controller->set_content_view(__(ucfirst($this->model_name) . ' not deleted'));
+                $message = __(ucfirst($this->model_name) . ' not deleted');
+                Messages::put('error', $message);
+                $this->controller->set_content_view($message);
             }
         }
         catch(ORM_Validation_Exception $e)
