@@ -5,7 +5,7 @@
  *
  * @author Stefan Florian Röthlisberger <sfroeth@gmail.com>
  */
-class Controller_Base extends Controller { 
+abstract class Controller_Base extends Controller { 
     
     /**
      * Layout of the site
@@ -40,7 +40,7 @@ class Controller_Base extends Controller {
     }
     
     /**
-     * Sets the view depending on whether the request came from an AJAX reqeust.
+     * Sets the content view depending on whether the request came from an AJAX reqeust.
      * @param  $view 
      */
     public function set_content_view($view)
@@ -52,6 +52,19 @@ class Controller_Base extends Controller {
         else 
         {
             $this->layout->content = $view;
+        }
+    }
+    
+    /**
+     * Sets the context view depending on whether the request came from an AJAX reqeust.
+     * @param  $view 
+     */
+    public function set_context_view($view) 
+    {
+        // only set context if it's not an AJAX request
+        if(!$this->request->is_ajax())
+        {
+            $this->layout->context = $view;
         }
     }
     

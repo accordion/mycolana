@@ -7,19 +7,60 @@
  */
 class View_Form extends View_Base {
     
+    /**
+     * Determines the action of the form
+     * @var string 
+     */
     private $action;
+    
+    /**
+     * The model associated with this form
+     * @var Model_Base 
+     */
     private $model;
+    
+    /**
+     * Potential exception caught in the controller and given to this form 
+     * (like ORM_Validation_Exception)
+     * @var Exception 
+     */
     private $errors;
+    
+    /**
+     * Determines the method of the form
+     * @var string
+     */
     private $method;
     
     /**
-     *
-     * @param string $action
-     * @param Base_Model $model
-     * @param ORM_Validation_Exception $exception 
-     * @param string $method post or get
+     * The type of the form, either search (only search button) or save (only save button)
+     * @var type 
      */
-    public function __construct($action, $model, $exception = null, $method = 'post')
+    private $type;
+    
+    /**
+     * Contains the through URI set foreign key values
+     * @var array
+     */
+    private $preset_foreign_keys = array();
+    
+    /**
+     * Provides the default values for the options
+     * @var array
+     */
+    private $default_options = array(
+            'method' => 'post',
+            'type' => 'all'
+        );
+    
+    /**
+     *
+     * @param string $action action of the form
+     * @param Base_Model $model model accosiated with this form
+     * @param ORM_Validation_Exception $exception  exception caught by the controller
+     * @param array $options array with 'method'=> 'post' or 'get', 'type' => 'all', 'save' or 'create'
+     */
+    public function __construct($action, $model, $exception = null, $options = array())
     {
         parent::__construct();
         $this->action = $action;
@@ -28,7 +69,22 @@ class View_Form extends View_Base {
         {
             $this->errors = $exception->errors('models');   
         }
-        $this->method = $method;
+        $options = array_replace($this->default_options, $options);
+        $this->method = $options['method'];
+        $this->type = $options['type'];
+        $this->set_foreign_keys();
+    }
+    
+    private function set_foreign_keys()
+    {
+        $query = Request::current()->query();
+        foreach(array_values($this->model->belongs_to()) as $relation)
+        {
+            if(isset($query[$relation['model']]))
+            {
+                $this->preset_foreign_keys[$relation['foreign_key']] =$query[$relation['model']];
+            }
+        }
     }
     
     public function form()
@@ -54,32 +110,37 @@ class View_Form extends View_Base {
         $form['elements'] = $elements;
         
         // Closing
-        $form['close'] = array(
-            array('element' => Form::button('submit', __('Save'), array('type' => 'submit'))),
-            array('element' => Form::button('search', __('Search'), array('type' => 'submit'))),
-            array('element' => Form::button('reset', __('Reset'), array(
-                'id' => 'reset',
-                'onclick' => 'return false'
-            ))),
-            array('element' => Form::close())
-        );       
+         $closing = array();
+        if($this->type == 'all' OR $this->type == 'save')
+        {
+            $closing[] = array('element' => Form::button('submit', __('Save'), 
+                    array('type' => 'submit')));
+        }
+        if($this->type == 'all' OR $this->type == 'search')
+        {
+            $closing[] = array('element' => Form::button('search', __('Search'), 
+                    array('type' => 'submit')));
+        }
+        $closing[] = array('element' => Form::close());
+        $form['close'] = $closing;
         return $form;
     }
     
     private function _create_input($column, $definitions)
     {
         $options = Arr::get($definitions, 'options', null);
+        $value = Arr::get($this->preset_foreign_keys, $column, $this->model->$column);
         switch($definitions['type'])
         {
             case 'textarea':
-                return Form::textarea($column, $this->model->$column, $options);  
+                return Form::textarea($column, $value, $options);  
             case 'hidden':
                 $options['type'] = 'hidden';
                 if(isset($definitions['maxlength'])) 
                     $options['maxlength'] = $definitions['maxlength'];
-                return Form::input($column, $this->model->$column, $options); 
+                return Form::input($column, $value, $options); 
             case 'checkbox':
-                return Form::checkbox($column, 1, (bool)$this->model->$column);
+                return Form::checkbox($column, 1, (bool)$value);
             case 'select':
                 $selected = Arr::get($definitions,'selected', null);
                 return Form::select($column, $options, $selected);
@@ -88,9 +149,9 @@ class View_Form extends View_Base {
             default:
                 if(isset($definitions['maxlength'])) 
                     $options['maxlength'] = $definitions['maxlength'];
-                if($column === 'id') 
+                if($column === 'id' AND ($this->type == 'save' OR $this->type == 'all')) 
                     $options['readonly'] = 'true';
-                return Form::input($column, $this->model->$column, $options);
+                return Form::input($column, $value, $options);
         }   
     }
     

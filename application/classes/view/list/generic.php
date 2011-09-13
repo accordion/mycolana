@@ -9,7 +9,8 @@ class View_List_Generic extends View_Base {
     
     private $model;
     
-    public function __construct($model) {
+    public function __construct($model) 
+    {
         $this->model = $model;
         parent::__construct();
     }
@@ -17,16 +18,43 @@ class View_List_Generic extends View_Base {
     public function elements()
     {
         $elements = array();
+        $through = null;
+        foreach(array_values($this->model->has_many()) as $relation)
+        {
+            if(isset($relation['through']))
+            {
+                $through = $relation; 
+                $through['through'] = Inflector::singular($through['through']);
+                unset($through['model']);
+            }
+        }
         foreach($this->model->find_all() as $element) 
         {
             $html = '';
+            $id = 0;
             foreach($element->as_array() as $column => $value) 
             {
+                if($column == 'id') $id = $value;
                 $html .= '<b>' . $column . ': </b>' . $value . ' ';
             }
-            $elements[] = array('element' => $html);
+            $element = array(
+                'id' => $id,
+                'element' => $html,
+            );
+            if(isset($through)) $element['through'] = $through;
+            $elements[] = $element;
         }
         return $elements;
+    }
+    
+    public function uri()
+    {
+        return $this->base_url() . 'detail/' . $this->model();
+    }
+    
+    public function model()
+    {
+        return $this->model->object_name();
     }
     
 }

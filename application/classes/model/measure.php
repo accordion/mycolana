@@ -19,9 +19,6 @@ class Model_Measure extends Model_Base {
         return array(
             'object_id' => array(
                 'type' => 'input',
-                'options' => array(
-                    'readonly' => 'true'
-                )
             )
         );
     }       

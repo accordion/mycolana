@@ -22,7 +22,21 @@ class Controller_Action_Generic implements Controller_Action_Handler {
     
     public function handle_get()
     {
-        $normal_view = new View_Form($this->controller->request->uri(), $this->model);
+        $normal_view = null;
+        if($this->controller->request->query('search') !== null) 
+        {
+            $normal_view = new View_Form($this->controller->request->uri(), 
+                    $this->model, null, array('type' => 'search'));
+        }
+        elseif($this->controller->request->query('save') !== null)
+        {
+            $normal_view = new View_Form($this->controller->request->uri(), 
+                    $this->model, null, array('type' => 'save'));
+        }
+        else 
+        {
+           $normal_view = new View_Form($this->controller->request->uri(), $this->model); 
+        }
         $error_view = __(ucfirst($this->model_name)) . ' not found';
         if(!$this->model->loaded() AND $this->id != null) 
         {
@@ -31,6 +45,19 @@ class Controller_Action_Generic implements Controller_Action_Handler {
         else
         {
             $this->controller->set_content_view($normal_view);
+        }
+        
+        // set the context view
+        if($this->controller->request->param('id') !== null)
+        {
+            $class = 'View_Context_' . ucfirst($this->model_name);
+            if(class_exists($class)) {
+                $this->controller->set_context_view(new $class($this->model));
+            }
+            else 
+            {
+                $this->controller->set_context_view(new View_Context_Generic($this->model));  
+            }   
         }
     }
     
@@ -45,8 +72,9 @@ class Controller_Action_Generic implements Controller_Action_Handler {
                 $action = __('added');
             else
                 $action = __('updated');
-            $this->controller->set_content_view(__(ucfirst($this->model_name) 
-                    . ' ' . $action));
+            $message = __(ucfirst($this->model_name) . ' ' . $action);
+            Messages::put('info', $message);
+            $this->controller->set_content_view($message);
         }
         catch(ORM_Validation_Exception $e)
         {
@@ -59,8 +87,19 @@ class Controller_Action_Generic implements Controller_Action_Handler {
     {
         try
         {
-            $this->model->delete();
-            $this->controller->set_content_view(__(ucfirst($this->model_name) . ' deleted'));
+            if($this->model->loaded())
+            {
+                $this->model->delete();
+                $message = __(ucfirst($this->model_name) . ' deleted');
+                Messages::put('info', $message);
+                $this->controller->set_content_view($message);
+            }
+            else
+            {
+                $message = __(ucfirst($this->model_name) . ' not deleted');
+                Messages::put('error', $message);
+                $this->controller->set_content_view($message);
+            }
         }
         catch(ORM_Validation_Exception $e)
         {
