@@ -49,6 +49,7 @@ return array(
     'Reset' => 'Leeren',
     'Cancel' => 'Abbrechen',
     'Delete' => 'Löschen',
+    'Assign' => 'Zuweisen',
    
 // Context
     'Overview' => 'Übersicht',

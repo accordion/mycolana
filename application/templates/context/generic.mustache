@@ -19,7 +19,12 @@
         function load_list() {
             var list = $("#"+model+"_list");
             var id = $('#form_{{parent_model}}').find('[name=id]').val();
-            list.load("{{base_url}}list/"+model+"?{{parent_model}}="+id);
+            list.load("{{base_url}}list/"+model+"?{{parent_model}}="+id, function() {
+                // add information from the parent model
+                list.find("a.through").each(function() {
+                    this.href = this.href + "&{{parent_model}}={{parent_id}}";
+                });
+            });
         }
 
         function add_cancel_button(selector) {

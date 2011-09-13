@@ -18,6 +18,16 @@ class View_List_Generic extends View_Base {
     public function elements()
     {
         $elements = array();
+        $through = null;
+        foreach(array_values($this->model->has_many()) as $relation)
+        {
+            if(isset($relation['through']))
+            {
+                $through = $relation; 
+                $through['through'] = Inflector::singular($through['through']);
+                unset($through['model']);
+            }
+        }
         foreach($this->model->find_all() as $element) 
         {
             $html = '';
@@ -27,10 +37,12 @@ class View_List_Generic extends View_Base {
                 if($column == 'id') $id = $value;
                 $html .= '<b>' . $column . ': </b>' . $value . ' ';
             }
-            $elements[] = array(
+            $element = array(
                 'id' => $id,
                 'element' => $html,
             );
+            if(isset($through)) $element['through'] = $through;
+            $elements[] = $element;
         }
         return $elements;
     }
@@ -42,7 +54,8 @@ class View_List_Generic extends View_Base {
     
     public function model()
     {
-        return Request::current()->param('model');
+//        return Request::current()->param('model');
+        return $this->model->object_name();
     }
     
 }

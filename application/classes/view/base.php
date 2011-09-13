@@ -26,4 +26,9 @@ abstract class View_Base extends Kostache {
     {
         return __('Delete');
     }
+    
+    public final function assign()
+    {
+        return __('Assign');
+    }
 }

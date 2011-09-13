@@ -12,5 +12,6 @@
         <a href="{{uri}}/{{id}}">{{&element}}</a>
         &nbsp;
         <a class="remove_{{model}}" href="{{uri}}/{{id}}">{{delete}}</a>
+        {{#through}}<a class="through" href="{{base_url}}detail/{{through}}?{{model}}={{id}}">{{assign}}</a>{{/through}}
     </li>
 {{/elements}}

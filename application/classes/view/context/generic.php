@@ -29,6 +29,11 @@ class View_Context_Generic extends View_Base {
         return $this->model->object_name();
     }
     
+    public function parent_id()
+    {
+        return $this->model->id;
+    }
+    
     public function tabs()
     {
         $tabs = array();
