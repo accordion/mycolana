@@ -1,22 +1,11 @@
-/*
- * Clears all forms completeley even the default values
- */
-function reset_button_listener(form) {
+function add_reset_button(form, label) {
+    form.append('<button name="reset" class="reset" onclick="return false">'+label+'</button>');
     $("[name=reset]").click(function() {
-        $(form).clearForm();
-     });
+        form.clearForm();
+    });
 }
 
-/*
- * Releads the page after 3 seconds
- */
-function reloadPage() {
-    setTimeout('location.reload()', 3000);
-}
-
- $(document).ready(function() {   
-    reset_button_listener("form");
-    
+$(document).ready(function() {    
     $("#datepicker").click(function() {
         $(this).datepicker();
     });

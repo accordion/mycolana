@@ -5,6 +5,17 @@
             
             <div id="header_module" class="span-7">
                 <div class="alt large">{{&path}}</div>
+                <div id="messages"></div>
+                <script type="text/javascript">
+                    var load_messages = function load_messages() {
+                        $("#messages").load("{{base_url}}message");
+                        setTimeout(load_messages, 2000);
+                    }
+                    
+                    $(document).ready(function() {
+                        load_messages();
+                    });
+                </script>
             </div>
             
             <div id="header_menu" class="span-11 right last large">

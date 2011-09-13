@@ -11,6 +11,7 @@ class Model_Object extends Model_Base {
     protected $_has_many = array(
         'measures' => array(),
         'locations' => array(),
+        'personroles' => array(),
         'persons' => array(
             'model'   => 'person',
             'through' => 'personroles',

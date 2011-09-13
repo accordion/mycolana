@@ -19,15 +19,15 @@ return array(
 
 // Names of the models
     'building' => 'Gebäude',
-    'location' => 'Position',
+    'location' => 'Ort',
     'measure' => 'Messung',
     'object' => 'Objekt',
     'person' => 'Person',
     
 // Labels for models
     'Buildings' => 'Gebäude',
-    'Locations' => 'Positionen',
-    'Measurements' => 'Messungen',
+    'Locations' => 'Orte',
+    'Measures' => 'Messungen',
     'Objects' => 'Objekte',
     'People' => 'Personen',
     
@@ -43,17 +43,22 @@ return array(
     'medim' => 'Dimension',
     'mevalue' => 'Wert',
     
-// Form    
+// Form & div
     'Save' => 'Speichern',
     'Search' => 'Suchen',
     'Reset' => 'Leeren',
     'Cancel' => 'Abbrechen',
+    'Delete' => 'Löschen',
+    'Assign' => 'Zuweisen',
    
 // Context
     'Overview' => 'Übersicht',
-    'Add measurement' => 'Messung hinzufügen',
-    'Add location' => 'Position hinzufügen',
+    'Add measure' => 'Messung hinzufügen',
+    'Search measures' => 'Messungen suchen',
+    'Add location' => 'Ort hinzufügen',
+    'Search locations' => 'Orte suchen',
     'Add person' => 'Person hinzufügen',
+    'Search people' => 'Personen suchen',
       
 // Misc
     'Object not found' => 'Objekt wurde nicht gefunden',
