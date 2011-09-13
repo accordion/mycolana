@@ -47,6 +47,23 @@
                 function success_action() {
                     var div = $("#context_form_"+model);
                     add_cancel_button(div);
+                    // add link listener for inline form
+                    add_context_link_listener();
+                }
+                
+                function add_context_link_listener() {
+                    var target = $("#context_form_"+model);
+                    $("#context_form_"+model+" a").click(function(event) {
+                        event.preventDefault();
+                        load_form_inline(target, this.href);
+                    });
+                }
+
+                function load_form_inline(target, url) {
+                    target.load(url, function() {
+                        // add a cancel button
+                        add_cancel_button(target);
+                    });
                 }
             });
         }
