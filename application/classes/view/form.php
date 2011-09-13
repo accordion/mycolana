@@ -39,6 +39,12 @@ class View_Form extends View_Base {
     private $type;
     
     /**
+     * Contains the through URI set foreign key values
+     * @var array
+     */
+    private $preset_foreign_keys = array();
+    
+    /**
      * Provides the default values for the options
      * @var array
      */
@@ -66,6 +72,19 @@ class View_Form extends View_Base {
         $options = array_replace($this->default_options, $options);
         $this->method = $options['method'];
         $this->type = $options['type'];
+        $this->set_foreign_keys();
+    }
+    
+    private function set_foreign_keys()
+    {
+        $query = Request::current()->query();
+        foreach(array_values($this->model->belongs_to()) as $relation)
+        {
+            if(isset($query[$relation['model']]))
+            {
+                $this->preset_foreign_keys[$relation['foreign_key']] =$query[$relation['model']];
+            }
+        }
     }
     
     public function form()
@@ -110,17 +129,18 @@ class View_Form extends View_Base {
     private function _create_input($column, $definitions)
     {
         $options = Arr::get($definitions, 'options', null);
+        $value = Arr::get($this->preset_foreign_keys, $column, $this->model->$column);
         switch($definitions['type'])
         {
             case 'textarea':
-                return Form::textarea($column, $this->model->$column, $options);  
+                return Form::textarea($column, $value, $options);  
             case 'hidden':
                 $options['type'] = 'hidden';
                 if(isset($definitions['maxlength'])) 
                     $options['maxlength'] = $definitions['maxlength'];
-                return Form::input($column, $this->model->$column, $options); 
+                return Form::input($column, $value, $options); 
             case 'checkbox':
-                return Form::checkbox($column, 1, (bool)$this->model->$column);
+                return Form::checkbox($column, 1, (bool)$value);
             case 'select':
                 $selected = Arr::get($definitions,'selected', null);
                 return Form::select($column, $options, $selected);
@@ -131,7 +151,7 @@ class View_Form extends View_Base {
                     $options['maxlength'] = $definitions['maxlength'];
                 if($column === 'id' AND ($this->type == 'save' OR $this->type == 'all')) 
                     $options['readonly'] = 'true';
-                return Form::input($column, $this->model->$column, $options);
+                return Form::input($column, $value, $options);
         }   
     }
     
