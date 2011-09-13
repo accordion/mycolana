@@ -24,12 +24,20 @@ class Controller_List extends Controller_Base {
                        $elements->and_where($column, '=', $value);
                 }
             }
-            // if query param object=n is set, get only the rows which belong to that object
-            else if(($object_id = $this->request->query('object')) != null)
+            else
             {
-                $object = Model_Base::factory('object', $object_id);
+                // if query param <model>=n is set, get only the rows which relate to that model
+                $relations = array_values(array_merge_recursive(
+                        $elements->belongs_to(), $elements->has_many()));
                 $model = $model_name . 's';
-                $elements = $object->$model;
+                foreach($relations as $definition)
+                { 
+                    if(($id = $this->request->query($definition['model'])) != null)
+                    {
+                        $ref_model = Model_Base::factory($definition['model'], $id);
+                        $elements = $ref_model->$model;
+                    }
+                }
             }
             
             // Set the custom view if a custom implementation exists

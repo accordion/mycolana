@@ -18,8 +18,8 @@
         
         function load_list() {
             var list = $("#"+model+"_list");
-            var obid = $('#form_{{parent_model}}').find('[name=id]').val();
-            list.load("{{base_url}}list/"+model+"?{{parent_model}}="+obid);
+            var id = $('#form_{{parent_model}}').find('[name=id]').val();
+            list.load("{{base_url}}list/"+model+"?{{parent_model}}="+id);
         }
 
         function add_cancel_button(selector) {
