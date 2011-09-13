@@ -48,14 +48,17 @@ class Controller_Action_Generic implements Controller_Action_Handler {
         }
         
         // set the context view
-        $class = 'View_Context_' . ucfirst($this->model_name);
-        if(class_exists($class)) {
-            $this->controller->set_context_view(new $class($this->model));
-        }
-        else 
+        if($this->controller->request->param('id') !== null)
         {
-            $this->controller->set_context_view(new View_Context_Generic($this->model));  
-        }      
+            $class = 'View_Context_' . ucfirst($this->model_name);
+            if(class_exists($class)) {
+                $this->controller->set_context_view(new $class($this->model));
+            }
+            else 
+            {
+                $this->controller->set_context_view(new View_Context_Generic($this->model));  
+            }   
+        }
     }
     
     public function handle_save() 
