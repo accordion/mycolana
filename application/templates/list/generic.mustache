@@ -20,15 +20,23 @@
             load_form(target, this.href);
         });
         
-        $(".remove_button").click(function(event) {
+        $(".remove_{{model}}").click(function(event) {
             event.preventDefault();
-            target.post();
+            $.post(this.href, { 'delete': 'true' },
+                function(message) {
+                    alert(message);
+                }
+            );
         });
     });
 </script>
 
 <div id="list_elements">
 {{#elements}}
-    <li><a href="{{uri}}/{{id}}">{{&element}}</a></li>
+    <li>
+        <a href="{{uri}}/{{id}}">{{&element}}</a>
+        &nbsp;
+        <a class="remove_{{model}}" href="{{uri}}/{{id}}">{{delete}}</a>
+    </li>
 {{/elements}}
 </div>

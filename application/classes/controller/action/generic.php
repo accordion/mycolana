@@ -86,8 +86,15 @@ class Controller_Action_Generic implements Controller_Action_Handler {
     {
         try
         {
-            $this->model->delete();
-            $this->controller->set_content_view(__(ucfirst($this->model_name) . ' deleted'));
+            if($this->model->loaded())
+            {
+                $this->model->delete();
+                $this->controller->set_content_view(__(ucfirst($this->model_name) . ' deleted'));
+            }
+            else
+            {
+                $this->controller->set_content_view(__(ucfirst($this->model_name) . ' not deleted'));
+            }
         }
         catch(ORM_Validation_Exception $e)
         {

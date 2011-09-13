@@ -43,11 +43,12 @@ return array(
     'medim' => 'Dimension',
     'mevalue' => 'Wert',
     
-// Form    
+// Form & div
     'Save' => 'Speichern',
     'Search' => 'Suchen',
     'Reset' => 'Leeren',
     'Cancel' => 'Abbrechen',
+    'Delete' => 'Löschen',
    
 // Context
     'Overview' => 'Übersicht',
