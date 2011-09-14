@@ -1,41 +1,66 @@
 <div id="table"></div>
 <script type="text/javascript">
-    
     function goTo(model, id) {
         document.location.href = '{{base_url}}detail/'+model+'/'+id;
     }
     
-    function get_belongs_to_data(model, id, target) {
-        $.getJSON('{{base_url}}json/'+model+'/'+id+'?withHeading', function(data) {
-            table = '<table>'
-            //heading
-            table += '<tr>';
-            $.each(data.heading, function(key, value) {
-                table += '<th>' + value + '</th>';            
-            });
-            table += '</tr>';
-            // data
-            $.each(data.data, function(key, value) {
-                table += '<tr onclick=\'goTo("'+model+'", '+value.id+')\'>';
-                $.each(value, function(key, value) {
-                    table += '<td>' + value + '</td>';
+    function RelatedObject(model, id, target) {
+        construct();
+        
+        function construct() {
+            get_belongs_to_data();         
+        }
+        
+        function get_belongs_to_data() {
+            $.getJSON('{{base_url}}json/'+model+'/'+id+'?withHeading', function(data) {
+                table = '<table>'
+                // change button
+                table += '<button id="change_'+model+'" onclick="return false">Change</button>';
+                //heading
+                table += '<tr>';
+                $.each(data.heading, function(key, value) {
+                    table += '<th>' + value + '</th>';            
                 });
-                 table += '</tr>';           
+                table += '</tr>';
+                // data
+                $.each(data.data, function(key, value) {
+                    table += '<tr onclick=\'goTo("'+model+'", '+value.id+')\'>';
+                    $.each(value, function(key, value) {
+                        table += '<td>' + value + '</td>';
+                    });
+                     table += '</tr>';           
+                });               
+                table += '</table>';
+                
+                $(target).html(table);
+                // add change button listener
+                change_button_listener();
             });
-            table += '</table>';
-            $(target).html(table);
-        });
+
+            function change_button_listener() {
+                $("#change_"+model).click(function() {
+                    $(target).load('{{base_url}}detail/'+model+'?search', function() {
+                        var form = $("#form_"+model);
+                        // configure form
+                        form.ajaxForm({
+                            target: target
+                        }); 
+                    });
+                });
+            }
+        }
+        
     }
     
-    $(document).ready(function() {
-        $.each($("input:hidden"), function(key, input) { 
-            var model = input.id;
-            var id = input.value;
-            if(id != '') {
-                get_belongs_to_data(model, id, '#field_'+input.name);
-            }
-        });      
-    });
+$(document).ready(function() {
+    $.each($("#form_{{model}} input:hidden"), function(key, input) { 
+        var model = input.id;
+        var id = input.value;
+        if(id != '') {
+            RelatedObject(model, id, '#field_'+input.name);
+        }
+    });    
+});
 </script>
 
 {{#form}}
@@ -47,7 +72,6 @@
         {{&input}}
         {{&error}}
         {{&div}}
-        <br />
     {{/elements}}
 
     {{#close}}

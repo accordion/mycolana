@@ -31,17 +31,31 @@ return array(
     'Objects' => 'Objekte',
     'People' => 'Personen',
     
+// id
+    'id' => 'ID',
+    
+// Foreign keys
+    'object_id' => 'Objekt',
+    'measure_id' => 'Measure',
+    'building_id' => 'Gebäude',
+    'person_id' => 'Person',
+    
 // Object
     'obinv' => 'Inventar',
     'obobject' => 'Objekt',
-    'obremark' => 'Bemerkung',
-    'building_id' => 'Gebäude',
+    'obremark' => 'Bemerkung', 
     'obdate' => 'Datum',
     
 // Measure
-    'object_id' => 'Objekt ID',
     'medim' => 'Dimension',
     'mevalue' => 'Wert',
+    
+// Person
+    'pename' => 'Name',
+    'peplace' => 'Ort',
+    
+// Personrole
+    'roremark' => 'Bemerkung',
     
 // Form & div
     'Save' => 'Speichern',
