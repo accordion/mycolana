@@ -1,3 +1,43 @@
+<div id="table"></div>
+<script type="text/javascript">
+    
+    function goTo(model, id) {
+        document.location.href = '{{base_url}}detail/'+model+'/'+id;
+    }
+    
+    function get_belongs_to_data(model, id, target) {
+        $.getJSON('{{base_url}}json/'+model+'/'+id+'?withHeading', function(data) {
+            table = '<table>'
+            //heading
+            table += '<tr>';
+            $.each(data.heading, function(key, value) {
+                table += '<th>' + value + '</th>';            
+            });
+            table += '</tr>';
+            // data
+            $.each(data.data, function(key, value) {
+                table += '<tr onclick=\'goTo("'+model+'", '+value.id+')\'>';
+                $.each(value, function(key, value) {
+                    table += '<td>' + value + '</td>';
+                });
+                 table += '</tr>';           
+            });
+            table += '</table>';
+            $(target).html(table);
+        });
+    }
+    
+    $(document).ready(function() {
+        $.each($("input:hidden"), function(key, input) { 
+            var model = input.id;
+            var id = input.value;
+            if(id != '') {
+                get_belongs_to_data(model, id, '#field_'+input.name);
+            }
+        });      
+    });
+</script>
+
 {{#form}}
     {{&open}}
     
@@ -6,6 +46,7 @@
         <br />
         {{&input}}
         {{&error}}
+        {{&div}}
         <br />
     {{/elements}}
 

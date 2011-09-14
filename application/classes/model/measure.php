@@ -12,15 +12,6 @@ class Model_Measure extends Model_Base {
     public function get_values()
     {
         return $this->medim . ' is from method, values is: ' . $this->mevalue;
-    }
-    
-    public function fields()
-    {
-        return array(
-            'object_id' => array(
-                'type' => 'input',
-            )
-        );
-    }       
+    }    
         
 }

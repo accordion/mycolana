@@ -45,6 +45,13 @@ class View_Form extends View_Base {
     private $preset_foreign_keys = array();
     
     /**
+     * Contains the mapping of the foreign keys to their corresponding model 
+     * (e.g. object_id => object)
+     * @var array
+     */
+    private $foreign_keys = array();
+    
+    /**
      * Provides the default values for the options
      * @var array
      */
@@ -72,17 +79,20 @@ class View_Form extends View_Base {
         $options = array_replace($this->default_options, $options);
         $this->method = $options['method'];
         $this->type = $options['type'];
-        $this->set_foreign_keys();
+        $this->parse_relations();
     }
     
-    private function set_foreign_keys()
+    private function parse_relations()
     {
         $query = Request::current()->query();
         foreach(array_values($this->model->belongs_to()) as $relation)
         {
+            // set foreign_keys to foreign_key => model
+            $this->foreign_keys[$relation['foreign_key']] = $relation['model'];
+            // set the preset foreign keys given by the query parameters
             if(isset($query[$relation['model']]))
             {
-                $this->preset_foreign_keys[$relation['foreign_key']] =$query[$relation['model']];
+                $this->preset_foreign_keys[$relation['foreign_key']] = $query[$relation['model']];
             }
         }
     }
@@ -104,7 +114,8 @@ class View_Form extends View_Base {
             $elements[] = array(
                 'label' =>  Form::label($column, __($column) . ': '),
                 'input' => $this->_create_input($column, $definitions),
-                'error' => Form::label($column, $error)
+                'error' => Form::label($column, $error),
+                'div' => '<div id="field_' . $column . '"></div>',
             );
         }
         $form['elements'] = $elements;
@@ -130,6 +141,10 @@ class View_Form extends View_Base {
     {
         $options = Arr::get($definitions, 'options', null);
         $value = Arr::get($this->preset_foreign_keys, $column, $this->model->$column);
+        if(isset($this->foreign_keys[$column]))
+        {
+            $options['id'] = $this->foreign_keys[$column];
+        }
         switch($definitions['type'])
         {
             case 'textarea':
@@ -153,6 +168,16 @@ class View_Form extends View_Base {
                     $options['readonly'] = 'true';
                 return Form::input($column, $value, $options);
         }   
+    }
+    
+    public function model()
+    {
+        return $this->model->object_name();
+    }
+    
+    public function id()
+    {
+        return $this->model->id;
     }
     
 }
