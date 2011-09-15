@@ -121,9 +121,17 @@ Route::set('auth', 'auth(/<model>(/<id>))')
 		'action'     => 'login',
 	));
 
+Route::set('json', 'detail/<model>(/<id>).json')
+	->defaults(array(
+                'controller' => 'json',
+		'action'     => 'index',
+	));
+
 Route::set('default', '(<controller>(/<model>(/<id>)))')
 	->defaults(array(
                 'controller' => 'detail',
 		'action'     => 'index',
 	));
+
+
 

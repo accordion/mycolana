@@ -23,19 +23,20 @@ class Controller_Action_Generic implements Controller_Action_Handler {
     public function handle_get()
     {
         $normal_view = null;
+        $action = $this->controller->request->uri();
         if($this->controller->request->query('search') !== null) 
         {
-            $normal_view = new View_Form($this->controller->request->uri(), 
-                    $this->model, null, array('type' => 'search'));
+            $normal_view = new View_Form($action . '.json?withHeading', $this->model, null, 
+                    array('type' => 'search'));
         }
         elseif($this->controller->request->query('save') !== null)
         {
-            $normal_view = new View_Form($this->controller->request->uri(), 
-                    $this->model, null, array('type' => 'save'));
+            $normal_view = new View_Form($action, $this->model, null,  
+                    array('type' => 'save'));
         }
         else 
         {
-           $normal_view = new View_Form($this->controller->request->uri(), $this->model); 
+           $normal_view = new View_Form($action, $this->model); 
         }
         $error_view = __(ucfirst($this->model_name)) . ' not found';
         if(!$this->model->loaded() AND $this->id != null) 
