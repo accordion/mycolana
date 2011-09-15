@@ -31,4 +31,9 @@ abstract class View_Base extends Kostache {
     {
         return __('Assign');
     }
+    
+    public final function create()
+    {
+        return __('Create');
+    }
 }
