@@ -115,7 +115,7 @@ class View_Form extends View_Base {
                 'label' =>  Form::label($column, __($column) . ': '),
                 'input' => $this->_create_input($column, $definitions),
                 'error' => Form::label($column, $error),
-                'div' => '<div id="field_' . $column . '"></div>',
+                'div' => '<div class="inline_list" id="field_' . $column . '"></div>',
             );
         }
         $form['elements'] = $elements;

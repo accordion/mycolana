@@ -23,3 +23,7 @@ tbody tr:hover td {
     background: lightblue; 
     cursor: pointer;
 }
+
+.inline_list {
+    background-color: #ffffcc;
+}
