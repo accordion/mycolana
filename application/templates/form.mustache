@@ -1,10 +1,15 @@
 <div id="table"></div>
 <script type="text/javascript">
-    function goTo(model, id) {
+    function go_to(model, id) {
         document.location.href = '{{base_url}}detail/'+model+'/'+id;
     }
     
-    function RelatedObject(model, id, target) {
+    function set_relation(model, id, field_name, target) {
+        $('[name='+field_name+']').attr('value', id);
+        RelatedObject(model, id, target, field_name);
+    }
+    
+    function RelatedObject(model, id, target, input_field_name) {
         construct();
         
         function construct() {
@@ -31,27 +36,8 @@
         }
         
         function get_belongs_to_data() {
-            $.getJSON('{{base_url}}json/'+model+'/'+id+'?withHeading', function(data) {
-                table = '<table>'
-                // change button
-                table += '<button id="change_'+model+'" onclick="return false">Change</button><br />';
-                //heading
-                table += '<tr>';
-                $.each(data.heading, function(key, value) {
-                    table += '<th>' + value + '</th>';            
-                });
-                table += '</tr>';
-                // data
-                $.each(data.data, function(key, value) {
-                    table += '<tr onclick=\'goTo("'+model+'", '+value.id+')\'>';
-                    $.each(value, function(key, value) {
-                        table += '<td>' + value + '</td>';
-                    });
-                     table += '</tr>';           
-                });               
-                table += '</table>';
-                
-                $(target).html(table);
+            $.getJSON('{{base_url}}json/'+model+'/'+id+'?withHeading', function(response) {
+                print_json_response(response, 'go_to', true)
                 // add change button listener
                 change_button_listener();              
                 append_separator();
@@ -63,13 +49,19 @@
                         var form = $("#form_"+model);
                         // configure form
                         form.ajaxForm({
-                            target: target
+                            target: target,
+                            success: print_result
                         });
                         // add a cancel button to the form
                         add_cancel_button(form);
                         append_separator();
                     });
                 });
+                
+                function print_result(response) {
+                    print_json_response(response, "set_relation");
+
+                }
             }
         }
         
@@ -80,13 +72,36 @@
             });
         }
         
+        function print_json_response(response, function_name, withChageButton) {
+            table = '<table>'
+            // change button
+            if(withChageButton) table += '<button id="change_'+model+'" onclick="return false">Change</button><br />';
+            //heading
+            table += '<tr>';
+            $.each(response.heading, function(key, value) {
+                table += '<th>' + value + '</th>';            
+            });
+            table += '</tr>';
+            // data
+            $.each(response.data, function(key, value) {
+                table += '<tr onclick=\''+function_name+'("'+model+'", '+value.id+', "'+input_field_name+'", "'+target+'")\'>';
+                $.each(value, function(key, value) {
+                    table += '<td>' + value + '</td>';
+                });
+                 table += '</tr>';           
+            });               
+            table += '</table>';
+
+            $(target).html(table);         
+        }
+        
     }
     
 $(document).ready(function() {
     $.each($("#form_{{model}} input:hidden"), function(key, input) { 
         var model = input.id;
         var id = input.value;
-        RelatedObject(model, id, '#field_'+input.name);
+        RelatedObject(model, id, '#field_'+input.name, input.name);
     });    
 });
 </script>
