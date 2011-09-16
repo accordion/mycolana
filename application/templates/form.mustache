@@ -26,13 +26,48 @@
         
         function add_assign_button() {
             $(target).html(
-                '<button name="assign" class="assign" onclick="return false">{{assign}}</button>'+
-                '<button name="create" class="create" onclick="return false">{{create}}</button>'
+                '<button name="assign_'+model+'" class="assign" onclick="return false">{{assign}}</button>'+
+                '<button name="create_'+model+'" class="create" onclick="return false">{{create}}</button>'
             );
             append_separator();
-            $("[name=assign]").click(function() {
-                construct();
+            $('[name=assign_'+model+']').click(function() {
+                search_form();
             });
+            $('[name=create_'+model+']').click(function() {
+                create_form();
+            });
+        }
+        
+        function search_form() {
+            $(target).load('{{base_url}}detail/'+model+'?search', function() {
+                var form = $("#form_"+model);
+                // configure form
+                form.ajaxForm({
+                    target: target,
+                    success: print_result
+                });
+                // add a cancel button to the form
+                add_cancel_button(form);
+                append_separator();
+            });
+            
+            function print_result(response) {
+                print_json_response(response, "set_relation");
+            }
+        }
+        
+        function create_form() {
+            $(target).load('{{base_url}}detail/'+model+'?save', function() {
+                var form = $("#form_"+model);
+                // configure form
+                form.ajaxForm({
+                    target: target,
+                    success: print_result
+                });
+                // add a cancel button to the form
+                add_cancel_button(form);
+                append_separator();
+            }); 
         }
         
         function get_belongs_to_data() {
@@ -45,23 +80,8 @@
 
             function change_button_listener() {
                 $("#change_"+model).click(function() {
-                    $(target).load('{{base_url}}detail/'+model+'?search', function() {
-                        var form = $("#form_"+model);
-                        // configure form
-                        form.ajaxForm({
-                            target: target,
-                            success: print_result
-                        });
-                        // add a cancel button to the form
-                        add_cancel_button(form);
-                        append_separator();
-                    });
+                    search_form();
                 });
-                
-                function print_result(response) {
-                    print_json_response(response, "set_relation");
-
-                }
             }
         }
         
@@ -84,7 +104,11 @@
             table += '</tr>';
             // data
             $.each(response.data, function(key, value) {
-                table += '<tr onclick=\''+function_name+'("'+model+'", '+value.id+', "'+input_field_name+'", "'+target+'")\'>';
+                if(function_name) {
+                    table += '<tr onclick=\''+function_name+'("'+model+'", '+value.id+', "'+input_field_name+'", "'+target+'")\'>';
+                } else {
+                    $table += '<tr>';
+                }
                 $.each(value, function(key, value) {
                     table += '<td>' + value + '</td>';
                 });

@@ -16,7 +16,11 @@ abstract class Controller_Base extends Controller {
     
     public function before()
     {
-        parent::before();
+        $this->auto_render = !$this->request->is_ajax(); 
+        if($this->auto_render === true)
+        {
+            parent::before();
+        }
        
         $this->layout = new View_Layout_Main;
         $this->layout->header = Kostache::factory('layout/header');
