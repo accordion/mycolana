@@ -21,7 +21,7 @@ class Controller_Action_Person extends Controller_Action_Generic {
                 $object = Model_Base::factory('object', $object_id);
                 $person->add('objects', $object);
             }
-            
+            Messages::put('info', __(ucfirst($this->model_name) . ' added'));
             $this->controller->set_content_view(__(ucfirst($this->model_name) . ' added'));
         }
         catch(ORM_Validation_Exception $e)

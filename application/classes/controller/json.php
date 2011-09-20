@@ -25,8 +25,13 @@ class Controller_JSON extends Controller {
                 {
                     $model = $this->handle_search($model_name);
                 }
+                else
+                {
+                    $model = $this->handle_save($model_name);
+                }
                 break;
             default:
+                Kohana_Log::instance()->add(Kohana_Log::ERROR, 'method: ' . $this->request->method());
                 throw new HTTP_Exception_400;
         }      
         
@@ -50,6 +55,21 @@ class Controller_JSON extends Controller {
                $model->and_where($column, '=', $value);
         }
         return $model;
+    }
+    
+    private function handle_save($model_name)
+    {
+        $model = Model_Base::factory($model_name);
+        try 
+        {
+            $model->values($_POST); 
+            $model->save();
+            return $model;
+        }
+        catch(ORM_Validation_Exception $e)
+        {
+            throw new HTTP_Exception_400;
+        }      
     }
     
     private function return_json($model) {

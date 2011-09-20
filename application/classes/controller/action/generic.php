@@ -24,20 +24,21 @@ class Controller_Action_Generic implements Controller_Action_Handler {
     {
         $normal_view = null;
         $action = $this->controller->request->uri();
+        $options = array();
         if($this->controller->request->query('search') !== null) 
         {
-            $normal_view = new View_Form($action . '.json?withHeading', $this->model, null, 
-                    array('type' => 'search'));
+            $options['type'] = 'search';
         }
         elseif($this->controller->request->query('save') !== null)
         {
-            $normal_view = new View_Form($action, $this->model, null,  
-                    array('type' => 'save'));
+            $options['type'] = 'save';
         }
-        else 
+        if($this->controller->request->is_ajax())
         {
-           $normal_view = new View_Form($action, $this->model); 
+            $options['format'] = 'json';
         }
+
+        $normal_view = new View_Form($action, $this->model, null, $options);
         $error_view = __(ucfirst($this->model_name)) . ' not found';
         if(!$this->model->loaded() AND $this->id != null) 
         {
