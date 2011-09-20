@@ -39,6 +39,12 @@ class View_Form extends View_Base {
     private $type;
     
     /**
+     * The format of the result (html or json)
+     * @var string
+     */
+    private $format;
+    
+    /**
      * Contains the through URI set foreign key values
      * @var array
      */
@@ -57,7 +63,8 @@ class View_Form extends View_Base {
      */
     private $default_options = array(
             'method' => 'post',
-            'type' => 'all'
+            'type' => 'all',
+            'format' => 'html',
         );
     
     /**
@@ -79,6 +86,7 @@ class View_Form extends View_Base {
         $options = array_replace($this->default_options, $options);
         $this->method = $options['method'];
         $this->type = $options['type'];
+        $this->format = $options['format'];
         $this->parse_relations();
     }
     
@@ -100,7 +108,9 @@ class View_Form extends View_Base {
     public function form()
     {
         $form = array();
-        $form['open'] = Form::open($this->action, array(
+        $action = $this->action;
+        if($this->format == 'json' && $this->type == 'search') $action .= '.json?withHeading';
+        $form['open'] = Form::open($action, array(
             'method' => $this->method,
             'id' => 'form_' . Request::current()->param('model')
         ));
